@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>كورس اللغة القبطية - صيف 2025</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        copticRed: '#7A1111',
+                        copticGold: '#D4AF37',
+                        parchment: '#FDFBF7',
+                        darkText: '#2C1E16'
+                    },
+                    fontFamily: {
+                        sans: ['Cairo', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #FDFBF7;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4af37' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            color: #2C1E16;
+        }
+        .coptic-text {
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            color: #7A1111;
+        }
+        .coptic-large {
+            font-size: 2.5rem;
+            line-height: 1.2;
+        }
+        .lesson-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .lesson-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .fade-in {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .letter-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 0.5rem;
+            background-color: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            text-align: center;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-copticRed text-white shadow-md sticky top-0 z-50 border-b-4 border-copticGold">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="goHome()">
+                <i class="fa-solid fa-cross text-copticGold text-2xl"></i>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-bold leading-tight">كورس القبطي</h1>
+                    <p class="text-copticGold text-xs md:text-sm font-semibold">صيف 2025 - المنهج المكثف</p>
+                </div>
+            </div>
+            <button onclick="goHome()" class="text-white hover:text-copticGold transition hidden" id="homeBtn">
+                <i class="fa-solid fa-house text-xl"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow container mx-auto px-4 py-8 max-w-4xl" id="main-container">
+        <!-- Dashboard (Weeks List) will be injected here -->
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-darkText text-white py-6 mt-auto text-center border-t-4 border-copticRed">
+        <p class="text-sm">تم التصميم خصيصاً لمراجعة كورس الصيف 2025 <i class="fa-solid fa-book-bible text-copticGold mx-1"></i></p>
+        <p class="text-xs text-gray-400 mt-2">وفقاً لمنهج الراهب أندرياس المقاري ومذكرات الشرح</p>
+    </footer>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // --- Data Structure ---
+        const courseData = [
+            {
+                id: 0,
+                title: "مقدمة الكورس",
+                subtitle: "لوحة الحروف للحفظ والمراجعة",
+                icon: "fa-book-open",
+                content: `
+                    <div class="bg-white rounded-xl shadow-md p-6 mb-6 border border-gray-100">
+                        <h2 class="text-2xl font-bold text-copticRed mb-4 border-b pb-2"><i class="fa-solid fa-table-cells ml-2"></i>الحروف القبطية (32 حرف)</h2>
+                        <p class="text-sm text-gray-600 mb-6">هذه اللوحة صُممت لتسهيل الحفظ السريع على الموبايل، وتتضمن الحرف، اسمه، ونطقه الشائع.</p>
+                        
+                        <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
+                            <div class="letter-card border-b-4 border-copticGold">
+                                <span class="coptic-text coptic-large">ⲁ</span>
+                                <span class="font-bold mt-1 text-sm">ألفا</span>
+                                <span class="text-xs text-gray-500">آه</span>
+                            </div>
+                            <div class="letter-card">
+                                <span class="coptic-text coptic-large">ⲃ</span>
+                                <span class="font-bold mt-1 text-sm">فيتا</span>
+                                <span class="text-xs text-gray-500">ف / ب / ڤ</span>
+                            </div>
+                            <div class="letter-card">
+                                <span class="coptic-text coptic-large">ⲅ</span>
+                                <span class="font-bold mt-1 text-sm">غاما</span>
+                                <span class="text-xs text-gray-500">غ / ن / ج</span>
+                            </div>
+                            <div class="letter-card">
+                                <span class="coptic-text coptic-large">ⲇ</span>
+                                <span class="font-bold mt-1 text-sm">دلتا</span>
+                                <span class="text-xs text-gray-500">د / ذ</span>
+                            </div>
+                            <div class="letter-card border-b-4 border-copticGold">
+                                <span class="coptic-text coptic-large">ⲉ</span>
+                                <span class="font-bold mt-1 text-sm">إي</span>
+                                <span class="text-xs text-gray-500">ي قصيرة</span>
+                            </div>
+                            <div class="letter-card bg-gray-50">
+                                <span class="coptic-text coptic-large">ⲋ</span>
+                                <span class="font-bold mt-1 text-sm">سو</span>
+                                <span class="text-xs text-gray-500 text-copticRed">(رقم 6)</span>
+                            </div>
+                            <div class="letter-card">
+                                <span class="coptic-text coptic-large">ⲍ</span>
+                                <span class="font-bold mt-1 text-sm">زيتا</span>
+                                <span class="text-xs text-gray-500">ز</span>
+                            </div>
+                            <div class="letter-card border-b-4 border-copticGold">
+                                <span class="coptic-text coptic-large">ⲏ</span>
+                                <span class="font-bold mt-1 text-sm">إيتا</span>
+                                <span class="text-xs text-gray-500">ي طويلة</span>
+                            </div>
+                            <div class="letter-card">
+                                <span class="coptic-text coptic-large">ⲑ</span>
+                                <span class="font-bold mt-1 text-sm">ثيتا</span>
+                                <span class="text-xs text-gray-500">ث / ت</span>
+                            </div>
+                            <div class="letter-card border-b-4 border-copticGold">
+                                <span class="coptic-text coptic-large">ⲓ</span>
+                                <span class="font-bold mt-1 text-sm">يوطا</span>
+                                <span class="text-xs text-gray-500">كسرة/ ي</span>
+                            </div>
+                            <div class="letter-card">
+                                <span class="coptic-text coptic-large">ⲕ</span>
+                                <span class="font-bold mt-1 text-sm">كبا</span>
+                                <span class="text-xs text-gray-500">ك</span>
+                            </div>
+                            <div class="letter-card">
+                                <span class="coptic-text coptic-large">ⲗ</span>
+                                <span class="font-bold mt-1 text-sm">لولا</span>
+                                <span class="text-xs text-gray-500">ل</span>
+                            </div>
+                            <div class="letter-card">
+                                <span class="coptic-text coptic-large">ⲙ</span>
+                                <span class="font-bold mt-1 text-sm">مي</span>
+                                <span class="text-xs text-gray-500">م</span>
+                            </div>
+                            <div class="letter-card">
+                                <span class="coptic-text coptic-large">ⲛ</span>
+                                <span class="font-bold mt-1 text-sm">ني</span>
+                                <span class="text-xs text-gray-500">ن</span>
+                            </div>
+                            <div class="letter-card">
+                                <span class="coptic-text coptic-large">ⲝ</span>
+                                <span class="font-bold mt-1 text-sm">إكسي</span>
+                                <span class="text-xs text-gray-500">ك+س</span>
+                            </div>
+                            <div class="letter-card border-b-4 border-copticGold">
+                                <span class="coptic-text coptic-large">ⲟ</span>
+                                <span class="font-bold mt-1 text-sm">أوميكرون</span>
+                                <span class="text-xs text-gray-500">و قصيرة</span>
+                            </div>
+                            <div class="letter-card">
+                                <span class="coptic-text coptic-large">ⲡ</span>
+                                <span class="font-bold mt-1 text-sm">بي</span>
+                                <span class="text-xs text-gray-500">ب (P)</span>
+                            </div>
+                            <div class="letter-card">
+                                <span class="coptic-text coptic-large">ⲣ</span>
+                                <span class="font-bold mt-1 text-sm">رو</span>
+                                <span class="text-xs text-gray-500">ر</span>
+                            </div>
+                            <div class="letter-card">
+                                <span class="coptic-text coptic-large">ⲥ</span>
+                                <span class="font-bold mt-1 text-sm">سيما</span>
+                                <span class="text-xs text-gray-500">س / ز</span>
+                            </div>
+                            <div class="letter-card">
+                                <span class="coptic-text coptic-large">ⲧ</span>
+                                <span class="font-bold mt-1 text-sm">تاو</span>
+                                <span class="text-xs text-gray-500">ت / د</span>
+                            </div>
+                            <div class="letter-card border-b-4 border-copticGold">
+                                <span class="coptic-text coptic-large">ⲩ</span>
+                                <span class="font-bold mt-1 text-sm">إبسيلون</span>
+                                <span class="text-xs text-gray-500">ڤ / و / ي</span>
+                            </div>
+                            <div class="letter-card">
+                                <span class="coptic-text coptic-large">ⲫ</span>
+                                <span class="font-bold mt-1 text-sm">في</span>
+                                <span class="text-xs text-gray-500">ف</span>
+                            </div>
+                            <div class="letter-card">
+                                <span class="coptic-text coptic-large">ⲭ</span>
+                                <span class="font-bold mt-1 text-sm">كي</span>
+                                <span class="text-xs text-gray-500">ك / ش / خ</span>
+                            </div>
+                            <div class="letter-card">
+                                <span class="coptic-text coptic-large">ⲯ</span>
+                                <span class="font-bold mt-1 text-sm">إبسي</span>
+                                <span class="text-xs text-gray-500">ب+س</span>
+                            </div>
+                            <div class="letter-card border-b-4 border-copticGold">
+                                <span class="coptic-text coptic-large">ⲱ</span>
+                                <span class="font-bold mt-1 text-sm">أوميجا</span>
+                                <span class="text-xs text-gray-500">و طويلة</span>
+                            </div>
+                            <div class="letter-card bg-red-50 border-copticRed border-b-4">
+                                <span class="coptic-text coptic-large">ϣ</span>
+                                <span class="font-bold mt-1 text-sm">شاي</span>
+                                <span class="text-xs text-gray-500">ش</span>
+                            </div>
+                            <div class="letter-card bg-red-50 border-copticRed border-b-4">
+                                <span class="coptic-text coptic-large">ϥ</span>
+                                <span class="font-bold mt-1 text-sm">فاي</span>
+                                <span class="text-xs text-gray-500">ف</span>
+                            </div>
+                            <div class="letter-card bg-red-50 border-copticRed border-b-4">
+                                <span class="coptic-text coptic-large">ϧ</span>
+                                <span class="font-bold mt-1 text-sm">خاي</span>
+                                <span class="text-xs text-gray-500">خ</span>
+                            </div>
+                            <div class="letter-card bg-red-50 border-copticRed border-b-4">
+                                <span class="coptic-text coptic-large">ϩ</span>
+                                <span class="font-bold mt-1 text-sm">هوري</span>
+                                <span class="text-xs text-gray-500">هـ</span>
+                            </div>
+                            <div class="letter-card bg-red-50 border-copticRed border-b-4">
+                                <span class="coptic-text coptic-large">ϫ</span>
+                                <span class="font-bold mt-1 text-sm">جانجا</span>
+                                <span class="text-xs text-gray-500">ج / چ</span>
+                            </div>
+                            <div class="letter-card bg-red-50 border-copticRed border-b-4">
+                                <span class="coptic-text coptic-large">ϭ</span>
+                                <span class="font-bold mt-1 text-sm">تشيما</span>
+                                <span class="text-xs text-gray-500">ت+ش</span>
+                            </div>
+                            <div class="letter-card bg-red-50 border-copticRed border-b-4">
+                                <span class="coptic-text coptic-large">ϯ</span>
+                                <span class="font-bold mt-1 text-sm">تي</span>
+                                <span class="text-xs text-gray-500">ت+ي</span>
+                            </div>
+                        </div>
+                        <div class="mt-4 flex gap-4 text-xs justify-center items-center">
+                            <span class="flex items-center gap-1"><div class="w-3 h-3 bg-copticGold rounded-full"></div> حروف متحركة</span>
+                            <span class="flex items-center gap-1"><div class="w-3 h-3 bg-red-100 border border-copticRed rounded-full"></div> حروف ديموطيقية</span>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 1,
+                title: "الأسبوع الأول",
+                subtitle: "تقسيم الأبجدية (ص 2 - 13)",
+                icon: "fa-font",
+                content: `
+                    <div class="bg-white rounded-xl shadow-md p-6 mb-6 border border-gray-100">
+                        <h2 class="text-2xl font-bold text-copticRed mb-4 border-b pb-2"><i class="fa-solid fa-layer-group ml-2"></i>تركيب الأبجدية</h2>
+                        <p class="mb-4">تتكون الأبجدية القبطية من <strong>32 حرفاً</strong>:</p>
+                        <ul class="list-disc list-inside space-y-2 mb-6">
+                            <li><strong>25 حرف:</strong> مأخوذة من اللغة اليونانية.</li>
+                            <li><strong>7 حروف:</strong> مأخوذة من اللغة المصرية القديمة (الديموطيقية).</li>
+                        </ul>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-center">
+                            <div class="bg-parchment p-3 rounded border border-copticGold">
+                                <span class="block text-2xl font-bold text-copticRed">24</span>
+                                <span class="text-sm">حرف ساكن</span>
+                            </div>
+                            <div class="bg-parchment p-3 rounded border border-copticGold">
+                                <span class="block text-2xl font-bold text-copticRed">7</span>
+                                <span class="text-sm">حروف متحركة</span>
+                            </div>
+                            <div class="bg-parchment p-3 rounded border border-copticGold col-span-2 md:col-span-1">
+                                <span class="block text-2xl font-bold text-copticRed coptic-text">ⲋ</span>
+                                <span class="text-sm">سو (يُستخدم كرقم 6 فقط)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md p-6 mb-6 border border-gray-100">
+                        <h2 class="text-2xl font-bold text-copticRed mb-4 border-b pb-2"><i class="fa-solid fa-music ml-2"></i>الحروف المتحركة (7 حروف)</h2>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-right border-collapse">
+                                <thead>
+                                    <tr class="bg-copticRed text-white">
+                                        <th class="p-3">الحرف</th>
+                                        <th class="p-3">الاسم</th>
+                                        <th class="p-3">النطق / النوع</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b bg-gray-50"><td class="p-3 coptic-text coptic-large">ⲁ</td><td class="p-3">ألفا</td><td class="p-3">آه (للفتح)</td></tr>
+                                    <tr class="border-b"><td class="p-3 coptic-text coptic-large">ⲉ</td><td class="p-3">إي</td><td class="p-3">كسرة خفيفة / ياء قصيرة</td></tr>
+                                    <tr class="border-b bg-gray-50"><td class="p-3 coptic-text coptic-large">ⲏ</td><td class="p-3">إيتا</td><td class="p-3">ياء طويلة / كسرة شديدة</td></tr>
+                                    <tr class="border-b"><td class="p-3 coptic-text coptic-large">ⲓ</td><td class="p-3">يوطا</td><td class="p-3">كسرة قصيرة</td></tr>
+                                    <tr class="border-b bg-gray-50"><td class="p-3 coptic-text coptic-large">ⲩ</td><td class="p-3">إبسيلون</td><td class="p-3">ياء عادية / أو / ڤي (حسب القاعدة)</td></tr>
+                                    <tr class="border-b"><td class="p-3 coptic-text coptic-large">ⲟ</td><td class="p-3">أو ميكرون</td><td class="p-3">واو قصيرة (للضم)</td></tr>
+                                    <tr class="border-b bg-gray-50"><td class="p-3 coptic-text coptic-large">ⲱ</td><td class="p-3">أوميجا</td><td class="p-3">واو طويلة (للضم)</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+                        <h2 class="text-2xl font-bold text-copticRed mb-4 border-b pb-2"><i class="fa-solid fa-volume-high ml-2"></i>الحروف الساكنة المأخوذة من الديموطيقية</h2>
+                        <p class="text-sm text-gray-600 mb-4">هذه الحروف السبعة أصلها مصري قديم وليس يونانياً، وتُكتب كما هي بدون تغييرات في النطق غالباً:</p>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+                            <div class="p-4 bg-gray-50 rounded border"><span class="coptic-text coptic-large block">ϣ</span>شاي (ش)</div>
+                            <div class="p-4 bg-gray-50 rounded border"><span class="coptic-text coptic-large block">ϥ</span>فاي (ف)</div>
+                            <div class="p-4 bg-gray-50 rounded border"><span class="coptic-text coptic-large block">ϧ</span>خاي (خ)</div>
+                            <div class="p-4 bg-gray-50 rounded border"><span class="coptic-text coptic-large block">ϩ</span>هوري (هـ)</div>
+                            <div class="p-4 bg-gray-50 rounded border"><span class="coptic-text coptic-large block">ϫ</span>جانجا (ج/چ)</div>
+                            <div class="p-4 bg-gray-50 rounded border"><span class="coptic-text coptic-large block">ϭ</span>تشيما (تش)</div>
+                            <div class="p-4 bg-gray-50 rounded border"><span class="coptic-text coptic-large block">ϯ</span>تي (تي)</div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 2,
+                title: "الأسبوع الثاني",
+                subtitle: "الأرقام القبطية (ص 178 - 180)",
+                icon: "fa-list-ol",
+                content: `
+                    <div class="bg-white rounded-xl shadow-md p-6 mb-6 border border-gray-100">
+                        <h2 class="text-2xl font-bold text-copticRed mb-4 border-b pb-2"><i class="fa-solid fa-hashtag ml-2"></i>قاعدة الأرقام</h2>
+                        <p class="mb-4">في اللغة القبطية، تُستخدم الحروف الأبجدية للتعبير عن الأرقام، مع وضع <strong>شرطة أفقية</strong> فوق الحرف لتمييزه كرقم.</p>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-center border-collapse">
+                                <thead>
+                                    <tr class="bg-copticRed text-white">
+                                        <th class="p-3">الرقم</th>
+                                        <th class="p-3">القبطي</th>
+                                        <th class="p-3">الرقم</th>
+                                        <th class="p-3">القبطي</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b bg-gray-50">
+                                        <td class="p-3 font-bold">1</td><td class="p-3 coptic-text coptic-large">ⲁ̅</td>
+                                        <td class="p-3 font-bold">6</td><td class="p-3 coptic-text coptic-large">ⲋ̅</td>
+                                    </tr>
+                                    <tr class="border-b">
+                                        <td class="p-3 font-bold">2</td><td class="p-3 coptic-text coptic-large">ⲃ̅</td>
+                                        <td class="p-3 font-bold">7</td><td class="p-3 coptic-text coptic-large">ⲍ̅</td>
+                                    </tr>
+                                    <tr class="border-b bg-gray-50">
+                                        <td class="p-3 font-bold">3</td><td class="p-3 coptic-text coptic-large">ⲅ̅</td>
+                                        <td class="p-3 font-bold">8</td><td class="p-3 coptic-text coptic-large">ⲏ̅</td>
+                                    </tr>
+                                    <tr class="border-b">
+                                        <td class="p-3 font-bold">4</td><td class="p-3 coptic-text coptic-large">ⲣ̅</td>
+                                        <td class="p-3 font-bold">9</td><td class="p-3 coptic-text coptic-large">ⲑ̅</td>
+                                    </tr>
+                                    <tr class="border-b bg-gray-50">
+                                        <td class="p-3 font-bold">5</td><td class="p-3 coptic-text coptic-large">ⲉ̅</td>
+                                        <td class="p-3 font-bold">10</td><td class="p-3 coptic-text coptic-large">ⲓ̅</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 3,
+                title: "الأسبوع الثالث",
+                subtitle: "التعريف والتنكير والاختصارات (ص 18 - 26)",
+                icon: "fa-tags",
+                content: `
+                    <div class="bg-white rounded-xl shadow-md p-6 mb-6 border border-gray-100">
+                        <h2 class="text-2xl font-bold text-copticRed mb-4 border-b pb-2"><i class="fa-solid fa-compress ml-2"></i>الاختصارات</h2>
+                        <p class="mb-4">توضع علامة تشبه الشرطة فوق الكلمة المختصرة، وعادة تُستخدم للكلمات المقدسة:</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-right">
+                            <div class="p-3 bg-gray-50 rounded border"><span class="coptic-text mr-2">ⲭ̅ⲥ̅</span> = ⲭⲣⲓⲥⲧⲟⲥ (مسيح)</div>
+                            <div class="p-3 bg-gray-50 rounded border"><span class="coptic-text mr-2">ⲓ̅ⲥ̅</span> = ⲓⲏⲥⲟⲩⲥ (يسوع)</div>
+                            <div class="p-3 bg-gray-50 rounded border"><span class="coptic-text mr-2">ⲉⲑ̅ⲩ̅</span> = ⲉⲑⲟⲩⲁⲃ (مقدس/قديس)</div>
+                            <div class="p-3 bg-gray-50 rounded border"><span class="coptic-text mr-2">ⲫ̅ϯ</span> = ⲫⲛⲟⲩϯ (الله)</div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md p-6 mb-6 border border-gray-100">
+                        <h2 class="text-2xl font-bold text-copticRed mb-4 border-b pb-2"><i class="fa-regular fa-star ml-2"></i>أدوات التنكير</h2>
+                        <div class="flex flex-col gap-4">
+                            <div class="p-4 bg-parchment rounded border border-copticGold">
+                                <span class="coptic-text text-2xl ml-2">ⲟⲩ</span> 
+                                <strong>للمفرد (مذكر ومؤنث):</strong> <br>
+                                مثال: <span class="coptic-text mx-1">ⲟⲩⲣⲱⲙⲓ</span> (رجل) / <span class="coptic-text mx-1">ⲟⲩⲥϩⲓⲙⲓ</span> (امرأة)
+                            </div>
+                            <div class="p-4 bg-parchment rounded border border-copticGold">
+                                <span class="coptic-text text-2xl ml-2">ϩⲁⲛ</span> 
+                                <strong>للجمع (بنوعيه):</strong> <br>
+                                مثال: <span class="coptic-text mx-1">ϩⲁⲛⲣⲱⲙⲓ</span> (رجال)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+                        <h2 class="text-2xl font-bold text-copticRed mb-4 border-b pb-2"><i class="fa-solid fa-star ml-2"></i>أدوات التعريف</h2>
+                        <p class="mb-2 text-sm text-gray-600">تنقسم إلى عامة (عادية) وخاصة (مضافة للكلمات التي تبدأ بحروف <strong>VILMNOR ⲃ ⲓ ⲗ ⲙ ⲛ ⲟ ⲣ</strong>)</p>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-right border-collapse mt-3">
+                                <thead>
+                                    <tr class="bg-copticRed text-white">
+                                        <th class="p-3">النوع</th>
+                                        <th class="p-3">عامة (عادية)</th>
+                                        <th class="p-3">خاصة</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b bg-gray-50">
+                                        <td class="p-3 font-bold">مفرد مذكر</td>
+                                        <td class="p-3"><span class="coptic-text">ⲡⲓ</span> (مثال: ⲡⲓⲣⲱⲙⲓ)</td>
+                                        <td class="p-3"><span class="coptic-text">ⲡ</span> أو <span class="coptic-text">ⲫ</span> (مثال: ⲫⲛⲟⲩϯ)</td>
+                                    </tr>
+                                    <tr class="border-b">
+                                        <td class="p-3 font-bold">مفرد مؤنث</td>
+                                        <td class="p-3"><span class="coptic-text">ϯ</span> (مثال: ϯⲥⲱⲛⲓ)</td>
+                                        <td class="p-3"><span class="coptic-text">ⲧ</span> أو <span class="coptic-text">ⲑ</span> (مثال: ⲑⲙⲁⲩ)</td>
+                                    </tr>
+                                    <tr class="border-b bg-gray-50">
+                                        <td class="p-3 font-bold">الجمع</td>
+                                        <td class="p-3"><span class="coptic-text">ⲛⲓ</span> (مثال: ⲛⲓⲣⲱⲙⲓ)</td>
+                                        <td class="p-3"><span class="coptic-text">ⲛⲉⲛ</span> (للإضافة)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 4,
+                title: "الأسبوع الرابع",
+                subtitle: "الإضافة، روابط الكينونة، والضمائر (ص 27، 32، 48)",
+                icon: "fa-link",
+                content: `
+                    <div class="bg-white rounded-xl shadow-md p-6 mb-6 border border-gray-100">
+                        <h2 class="text-2xl font-bold text-copticRed mb-4 border-b pb-2"><i class="fa-solid fa-plus-minus ml-2"></i>أدوات الإضافة (Genitive)</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="p-4 bg-gray-50 rounded border text-right">
+                                <span class="coptic-text text-2xl block mb-2">ⲛ̀ⲧⲉ</span>
+                                <p>أداة إضافة منفصلة (تأتي بين كلمتين).</p>
+                                <p class="text-sm mt-2 text-gray-600">مثال: <span class="coptic-text">ⲡⲓⲱⲓⲕ ⲛ̀ⲧⲉ ⲡⲱⲛϧ</span> (خبز الحياة)</p>
+                            </div>
+                            <div class="p-4 bg-gray-50 rounded border text-right">
+                                <span class="coptic-text text-2xl block mb-2">ⲛ̀ أو ⲙ̀</span>
+                                <p>أداة إضافة متصلة (تلتصق بالكلمة الثانية).</p>
+                                <p class="text-sm mt-2 text-gray-600">نستخدم ⲙ̀ قبل حروف الشفتين (ⲃ, ⲙ, ⲡ, ⲫ, ⲯ)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md p-6 mb-6 border border-gray-100">
+                        <h2 class="text-2xl font-bold text-copticRed mb-4 border-b pb-2"><i class="fa-solid fa-equals ml-2"></i>روابط الكينونة (Verb to be)</h2>
+                        <ul class="list-disc list-inside space-y-3">
+                            <li><span class="coptic-text mx-2 text-xl">ⲡⲉ</span> للمفرد المذكر (هو / يكون)</li>
+                            <li><span class="coptic-text mx-2 text-xl">ⲧⲉ</span> للمفرد المؤنث (هي / تكون)</li>
+                            <li><span class="coptic-text mx-2 text-xl">ⲛⲉ</span> للجمع بنوعيه (هم / يكونون)</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+                        <h2 class="text-2xl font-bold text-copticRed mb-4 border-b pb-2"><i class="fa-solid fa-users ml-2"></i>الضمائر الشخصية المنفصلة</h2>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-center border-collapse">
+                                <thead>
+                                    <tr class="bg-copticRed text-white">
+                                        <th class="p-3">المعنى</th>
+                                        <th class="p-3">الضمير (قبطي)</th>
+                                        <th class="p-3">النطق</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b bg-gray-50"><td>أنا</td><td class="coptic-text coptic-large">ⲁⲛⲟⲕ</td><td>أنوك</td></tr>
+                                    <tr class="border-b"><td>أنتَ (مذكر)</td><td class="coptic-text coptic-large">ⲛ̀ⲑⲟⲕ</td><td>إنثوك</td></tr>
+                                    <tr class="border-b bg-gray-50"><td>أنتِ (مؤنث)</td><td class="coptic-text coptic-large">ⲛ̀ⲑⲟ</td><td>إنثو</td></tr>
+                                    <tr class="border-b"><td>هو</td><td class="coptic-text coptic-large">ⲛ̀ⲑⲟϥ</td><td>إنثوف</td></tr>
+                                    <tr class="border-b bg-gray-50"><td>هي</td><td class="coptic-text coptic-large">ⲛ̀ⲑⲟⲥ</td><td>إنثوس</td></tr>
+                                    <tr class="border-b"><td>نحن</td><td class="coptic-text coptic-large">ⲁⲛⲟⲛ</td><td>أنون</td></tr>
+                                    <tr class="border-b bg-gray-50"><td>أنتم</td><td class="coptic-text coptic-large">ⲛ̀ⲑⲱⲧⲉⲛ</td><td>إنثوتين</td></tr>
+                                    <tr class="border-b"><td>هم</td><td class="coptic-text coptic-large">ⲛ̀ⲑⲱⲟⲩ</td><td>إنثوؤو</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 5,
+                title: "الأسبوع الخامس",
+                subtitle: "المقاطع والجِنكم (ص 16)",
+                icon: "fa-pen-nib",
+                content: `
+                    <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+                        <h2 class="text-2xl font-bold text-copticRed mb-4 border-b pb-2"><i class="fa-solid fa-quote-right ml-2"></i>علامة الجنكم ( ̀ )</h2>
+                        <p class="mb-4 text-lg">الجنكم عبارة عن نقطة أو شرطة صغيرة مائلة توضع فوق الحرف، ولها تأثيران حسب نوع الحرف الذي توضع عليه:</p>
+                        
+                        <div class="space-y-6 mt-6">
+                            <div class="bg-gray-50 p-5 rounded-lg border-r-4 border-copticGold">
+                                <h3 class="font-bold text-xl mb-2">1. إذا وُضعت على حرف ساكن:</h3>
+                                <p>تُشكل مقطعاً صوتياً مستقلاً يُنطق كحرف (إي <span class="coptic-text">ⲉ</span>) قبل الحرف الساكن المكسور.</p>
+                                <p class="mt-2 text-copticRed">مثال: <span class="coptic-text font-bold text-2xl mx-2">ⲙ̀ⲡⲉ</span> تُنطق (إم-بي).</p>
+                            </div>
+
+                            <div class="bg-gray-50 p-5 rounded-lg border-r-4 border-copticRed">
+                                <h3 class="font-bold text-xl mb-2">2. إذا وُضعت على حرف متحرك:</h3>
+                                <p>تُفيد استقلال نُطق هذا الحرف المتحرك عن الحروف التي تسبقه أو تليه، كأنها "همزة قطع".</p>
+                                <p class="mt-2 text-copticRed">مثال: <span class="coptic-text font-bold text-2xl mx-2">ⲱⲟⲩ</span> بدون جنكم = (أوو) <br> بينما <span class="coptic-text font-bold text-2xl mx-2">ⲱ̀ⲟⲩ</span> بجنكم = (أو - أوو).</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            }
+        ];
+
+        // --- App Logic ---
+        const mainContainer = document.getElementById('main-container');
+        const homeBtn = document.getElementById('homeBtn');
+
+        function renderHome() {
+            homeBtn.classList.add('hidden');
+            let html = `
+                <div class="text-center mb-10 fade-in">
+                    <h2 class="text-3xl md:text-4xl font-bold text-copticRed mb-3">مرحباً بك في الكورس</h2>
+                    <p class="text-gray-600 max-w-xl mx-auto mb-2">منهج كورس الصيف 2025.</p>
+                    <p class="text-sm font-semibold text-copticGold bg-copticRed inline-block px-4 py-1 rounded-full">يرجى البدء بمقدمة الكورس لحفظ الحروف أولاً</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            `;
+            
+            courseData.forEach(week => {
+                // ميزنا شكل كارت المقدمة عشان يشد الانتباه
+                const isIntro = week.id === 0;
+                const bgClass = isIntro ? 'bg-parchment border-copticGold border-2' : 'bg-white border-gray-100 border';
+                const textClass = isIntro ? 'text-copticRed' : 'text-darkText';
+                const iconColorClass = isIntro ? 'text-copticRed' : 'text-copticGold';
+                const headerBgClass = isIntro ? 'bg-copticGold' : 'bg-copticRed';
+
+                html += `
+                    <div onclick="renderLesson(${week.id})" class="lesson-card ${bgClass} rounded-2xl shadow-lg overflow-hidden cursor-pointer flex flex-col h-full fade-in" style="animation-delay: ${week.id * 0.05}s">
+                        <div class="${headerBgClass} ${iconColorClass} p-4 flex justify-center items-center transition-colors">
+                            <i class="fa-solid ${week.icon} text-4xl opacity-90"></i>
+                        </div>
+                        <div class="p-5 flex-grow text-center">
+                            <h3 class="text-xl font-bold ${textClass} mb-2">${week.title}</h3>
+                            <p class="text-sm text-gray-600">${week.subtitle}</p>
+                        </div>
+                        <div class="bg-gray-50 p-3 text-center border-t text-sm font-semibold text-copticRed">
+                            ${isIntro ? 'ابدأ الحفظ الآن' : 'ابدأ المذاكرة'} <i class="fa-solid fa-arrow-left ml-1 text-xs"></i>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `</div>`;
+            mainContainer.innerHTML = html;
+        }
+
+        function renderLesson(id) {
+            homeBtn.classList.remove('hidden');
+            const lesson = courseData.find(l => l.id === id);
+            
+            let html = `
+                <div class="fade-in">
+                    <div class="mb-6 flex justify-between items-center border-b-2 border-copticGold pb-4">
+                        <div>
+                            <h2 class="text-3xl font-bold text-copticRed">${lesson.title}</h2>
+                            <p class="text-gray-600 mt-1">${lesson.subtitle}</p>
+                        </div>
+                        <button onclick="goHome()" class="bg-gray-100 hover:bg-gray-200 text-gray-800 p-2 rounded-full h-10 w-10 flex items-center justify-center transition">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                    <div>
+                        ${lesson.content}
+                    </div>
+                </div>
+            `;
+            mainContainer.innerHTML = html;
+            window.scrollTo(0,0);
+        }
+
+        function goHome() {
+            renderHome();
+            window.scrollTo(0,0);
+        }
+
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', () => {
+            renderHome();
+        });
+    </script>
+</body>
+</html>
