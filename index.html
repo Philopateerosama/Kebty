@@ -103,185 +103,357 @@
     <!-- JavaScript Application Logic -->
     <script>
         // --- Data Structure ---
+        const lettersData = [
+            {
+                char: "ⲁ", name: "ألفا", summary: "آه / أ / فتحة", type: "متحرك (للفتح)", origin: "يوناني",
+                rules: [
+                    { condition: "يُنطق كالألف الممدودة (آه) إذا وضعت عليه جنكم أو في كلمة من حرفين", examples: [{ coptic: "ⲁⲛⲟⲕ", arabic: "أنوك", meaning: "أنا" }, { coptic: "ⲁⲙⲟⲩ", arabic: "أمو", meaning: "تعال" }, { coptic: "ⲁⲙⲉⲛⲧⲓ", arabic: "أمنتي", meaning: "جحيم" }, { coptic: "ⲁⲙⲏⲛ", arabic: "آمين", meaning: "آمين" }] },
+                    { condition: "يُنطق كالألف المهموزة المفتوحة (أ) في أول الكلمة", examples: [{ coptic: "ⲁⲑⲙⲟⲩ", arabic: "أثمؤو", meaning: "غير مائت" }, { coptic: "ⲁⲗⲗⲁ", arabic: "ألا", meaning: "لكن" }, { coptic: "ⲁⲛⲁⲥⲧⲁⲥⲓⲥ", arabic: "أناستاسيس", meaning: "قيامة" }] },
+                    { condition: "يُنطق كالفتحة القصيرة المفخمة في وسط أو آخر الكلمة", examples: [{ coptic: "ⲕⲁⲧⲁ", arabic: "قاطا", meaning: "طبقاً لـ" }, { coptic: "ⲫⲁⲓ", arabic: "فاي", meaning: "هذا" }, { coptic: "ⲃⲁⲗ", arabic: "ڤال", meaning: "عين" }] }
+                ]
+            },
+            {
+                char: "ⲃ", name: "فيتا", summary: "ف / ب / ڤ", type: "ساكن", origin: "يوناني",
+                rules: [
+                    { condition: "يُنطق (ڤ / ف) إذا جاء في أول الكلمة أو المقطع وبعده حرف متحرك", examples: [{ coptic: "ⲃⲁⲗ", arabic: "ڤال", meaning: "عين" }, { coptic: "ⲃⲱⲕ", arabic: "ڤوك", meaning: "عبد" }, { coptic: "ⲃⲁⲕⲓ", arabic: "ڤاكي", meaning: "مدينة" }, { coptic: "ⲛⲓⲃⲉⲛ", arabic: "نيڤين", meaning: "كل" }, { coptic: "ⲛⲟⲃⲓ", arabic: "نوڤي", meaning: "خطية" }] },
+                    { condition: "يُنطق (ب) إذا جاء في آخر الكلمة أو بعده حرف ساكن", examples: [{ coptic: "ϩⲱⲃ", arabic: "هوب", meaning: "عمل" }, { coptic: "ⲟⲩⲁⲃ", arabic: "أوآب", meaning: "مقدس" }, { coptic: "ⲛⲟⲩⲃ", arabic: "نوب", meaning: "ذهب" }, { coptic: "ⲧⲱⲃϩ", arabic: "طوبه", meaning: "طلبة" }, { coptic: "ⲃⲏⲃⲥ", arabic: "بيبس", meaning: "مصباح" }] },
+                    { condition: "يُنطق (ب) دائماً في أسماء الأعلام", examples: [{ coptic: "ⲃⲁⲥⲓⲗⲓⲟⲥ", arabic: "باسيليوس", meaning: "باسيليوس" }, { coptic: "ⲁⲃⲣⲁⲁⲙ", arabic: "أبرآم", meaning: "إبراهيم" }, { coptic: "ⲓⲱⲃ", arabic: "يوب", meaning: "أيوب" }, { coptic: "ⲓⲁⲕⲱⲃ", arabic: "ياكوب", meaning: "يعقوب" }] }
+                ]
+            },
+            {
+                char: "ⲅ", name: "غاما", summary: "ج / غ / ن", type: "ساكن", origin: "يوناني",
+                rules: [
+                    { condition: "يُنطق (ج) إذا جاء بعده حرف متحرك للكسر (ⲉ, ⲓ, ⲏ, ⲩ)", examples: [{ coptic: "ⲅⲉⲛⲟⲥ", arabic: "جينوس", meaning: "جنس" }, { coptic: "ⲅⲩⲙⲛⲁⲥⲓⲁ", arabic: "جيمنسيا", meaning: "رياضة" }, { coptic: "ⲅⲏ", arabic: "جي", meaning: "أرض" }, { coptic: "ⲁⲅⲓⲟⲥ", arabic: "آجيوس", meaning: "قدوس" }] },
+                    { condition: "يُنطق (ن) إذا جاء بعده حرف حلقي (ⲅ, ⲕ, ⲝ, ⲭ)", examples: [{ coptic: "ⲁⲅⲅⲉⲗⲟⲥ", arabic: "أنجيلوس", meaning: "ملاك" }, { coptic: "ⲗⲟⲅⲭⲏ", arabic: "لونخي", meaning: "حربة" }, { coptic: "ⲥⲁⲗⲡⲓⲅⲝ", arabic: "سالبينغس", meaning: "بوق" }, { coptic: "ⲁⲛⲁⲅⲕⲏ", arabic: "أنانكي", meaning: "ضرورة" }] },
+                    { condition: "يُنطق (غ) فيما عدا ذلك (قبل الفتح أو الضم أو الساكن)", examples: [{ coptic: "ⲁⲅⲱⲛ", arabic: "أغون", meaning: "جهاد" }, { coptic: "ⲁⲅⲁⲡⲏ", arabic: "أغابي", meaning: "محبة" }, { coptic: "ⲅⲣⲁⲫⲏ", arabic: "غرافي", meaning: "قراءة" }] }
+                ]
+            },
+            {
+                char: "ⲇ", name: "دلتا", summary: "د / ذ", type: "ساكن", origin: "يوناني",
+                rules: [
+                    { condition: "يُنطق (د) في أسماء الأعلام", examples: [{ coptic: "ⲇⲁⲩⲓⲇ", arabic: "داڤيد", meaning: "داود" }, { coptic: "ⲓⲟⲩⲇⲁⲥ", arabic: "يوداس", meaning: "يهوذا" }, { coptic: "ⲇⲁⲛⲓⲏⲗ", arabic: "دانييل", meaning: "دانيال" }] },
+                    { condition: "يُنطق (ذ) في الكلمات اليونانية", examples: [{ coptic: "ⲇⲱⲣⲟⲛ", arabic: "ذورون", meaning: "تقدمة" }, { coptic: "ⲇⲓⲁⲕⲟⲛ", arabic: "ذياكون", meaning: "خادم" }, { coptic: "ⲇⲓⲁⲃⲟⲗⲟⲥ", arabic: "ذيافولوس", meaning: "شيطان" }, { coptic: "ⲑⲉⲟⲇⲱⲣⲟⲥ", arabic: "ثيئوذوروس", meaning: "ثيئوذوروس" }] }
+                ]
+            },
+            {
+                char: "ⲉ", name: "إي", summary: "ي قصيرة / همزة", type: "متحرك (للكسر)", origin: "يوناني",
+                rules: [
+                    { condition: "همزة بين الفتحة والكسرة (في أول الكلمة أو المقطع)", examples: [{ coptic: "ⲫⲏⲉⲧ", arabic: "في إت", meaning: "ذاك الذي" }, { coptic: "ⲉⲃⲟⲗ", arabic: "إيڤول", meaning: "من" }, { coptic: "ⲉⲛⲕⲟⲧ", arabic: "إنكوت", meaning: "يرقد" }, { coptic: "ⲉⲙⲓ", arabic: "إيمي", meaning: "يعلم" }] },
+                    { condition: "ياء قصيرة مخطوفة (مثل كسرة خفيفة وسط أو آخر الكلمة)", examples: [{ coptic: "ⲃⲉⲛⲓ", arabic: "ڤيني", meaning: "نخلة" }, { coptic: "ⲙⲉⲓ", arabic: "ميي", meaning: "يُحب" }, { coptic: "ⲡⲉ", arabic: "بي", meaning: "يكون" }, { coptic: "ⲛⲉⲙ", arabic: "نيم", meaning: "و / مع" }, { coptic: "ⲛⲉⲥ", arabic: "نيس", meaning: "يستيقظ" }] }
+                ]
+            },
+            {
+                char: "ⲋ", name: "سو", summary: "رقم 6", type: "رقم", origin: "يوناني",
+                rules: [
+                    { condition: "لا يُنطق كحرف، ويُستخدم فقط للتعبير عن الرقم 6", examples: [{ coptic: "ⲋ̅", arabic: "سو", meaning: "ستة" }] }
+                ]
+            },
+            {
+                char: "ⲍ", name: "زيتا", summary: "ز", type: "ساكن", origin: "يوناني",
+                rules: [
+                    { condition: "يُنطق (ز) دائماً", examples: [{ coptic: "ⲍⲱⲏ", arabic: "زوئي", meaning: "حياة" }, { coptic: "ⲍⲱⲟⲛ", arabic: "زو أون", meaning: "كائن حي" }, { coptic: "ⲁⲛⲍⲏⲃ", arabic: "أنزيب", meaning: "مدرسة" }, { coptic: "ⲍⲁⲭⲁⲣⲓⲁⲥ", arabic: "زاخارياس", meaning: "زكريا" }] }
+                ]
+            },
+            {
+                char: "ⲏ", name: "إيتا", summary: "ي طويلة / إي", type: "متحرك (للكسر)", origin: "يوناني",
+                rules: [
+                    { condition: "يُنطق ياء طويلة مكسورة (كسرة شديدة) وسط أو آخر الكلمة", examples: [{ coptic: "ⲓⲏⲥ", arabic: "إيسوس", meaning: "يسوع" }, { coptic: "ϫⲏⲕ", arabic: "جيك", meaning: "كامل" }, { coptic: "ⲥⲏⲃⲓ", arabic: "سيڤي", meaning: "سيف" }, { coptic: "ⲣⲏ", arabic: "ري", meaning: "شمس" }] },
+                    { condition: "همزة مكسورة في أول الكلمة", examples: [{ coptic: "ⲏⲣⲱⲇⲏⲥ", arabic: "إيروذيس", meaning: "هيرودس" }, { coptic: "ⲏⲥⲁⲓⲁⲥ", arabic: "إيسائياس", meaning: "إشعياء" }] }
+                ]
+            },
+            {
+                char: "ⲑ", name: "ثيتا", summary: "ت / ث", type: "ساكن", origin: "يوناني",
+                rules: [
+                    { condition: "يُنطق (ت) إذا سبقه أحد الحروف (ⲥ, ⲧ, ϣ, ϧ)", examples: [{ coptic: "ⲥⲑⲟⲓ", arabic: "إستوي", meaning: "رائحة" }, { coptic: "ϣⲑⲉⲣⲧⲉⲣ", arabic: "إشتيرتير", meaning: "رعدة" }, { coptic: "ϣⲑⲏⲛ", arabic: "إشتين", meaning: "قميص" }, { coptic: "ϩⲑⲟ", arabic: "إهتو", meaning: "بغل" }] },
+                    { condition: "يُنطق (ث) فيما عدا ذلك", examples: [{ coptic: "ⲑⲱⲕ", arabic: "ثوك", meaning: "لك" }, { coptic: "ⲡⲁⲑⲟⲥ", arabic: "باثوس", meaning: "ألم" }, { coptic: "ⲑⲁⲓ", arabic: "ثاي", meaning: "هذه" }, { coptic: "ⲡⲁⲣⲑⲉⲛⲟⲥ", arabic: "بارثينوس", meaning: "عذراء" }] }
+                ]
+            },
+            {
+                char: "ⲓ", name: "يوطا", summary: "ي قصيرة", type: "متحرك (للكسر)", origin: "يوناني",
+                rules: [
+                    { condition: "يُنطق ياء قصيرة أو كسرة", examples: [{ coptic: "ⲓⲱⲧ", arabic: "يوت", meaning: "أب" }, { coptic: "ⲡⲓⲣⲱⲙⲓ", arabic: "بي رومي", meaning: "الرجل" }, { coptic: "ⲓⲁⲕⲱⲃ", arabic: "ياكوب", meaning: "يعقوب" }, { coptic: "ⲓⲟⲩⲇⲁⲥ", arabic: "يوداس", meaning: "يهوذا" }] }
+                ]
+            },
+            {
+                char: "ⲕ", name: "كبا", summary: "ك", type: "ساكن", origin: "يوناني",
+                rules: [
+                    { condition: "يُنطق (ك) دائماً", examples: [{ coptic: "ⲕⲁⲗⲱϥ", arabic: "كالوف", meaning: "قلم" }, { coptic: "ⲕⲁϩⲓ", arabic: "كاهي", meaning: "أرض" }, { coptic: "ⲕⲁⲥ", arabic: "كاس", meaning: "عظم" }, { coptic: "ⲕⲟⲩϫⲓ", arabic: "كوجي", meaning: "صغير" }] }
+                ]
+            },
+            {
+                char: "ⲗ", name: "لولا", summary: "ل", type: "ساكن", origin: "يوناني",
+                rules: [
+                    { condition: "يُنطق (ل) دائماً", examples: [{ coptic: "ⲗⲁⲟⲥ", arabic: "لاؤس", meaning: "شعب" }, { coptic: "ⲗⲁⲥ", arabic: "لاس", meaning: "لسان" }, { coptic: "ⲗⲁⲙⲡⲁⲥ", arabic: "لامباس", meaning: "مصباح" }, { coptic: "ⲗⲟⲩⲗⲓ", arabic: "لولي", meaning: "تهليل" }] }
+                ]
+            },
+            {
+                char: "ⲙ", name: "مي", summary: "م", type: "ساكن", origin: "يوناني",
+                rules: [
+                    { condition: "يُنطق (م) دائماً", examples: [{ coptic: "ⲙⲁⲩ", arabic: "ماڤ", meaning: "أم" }, { coptic: "ⲙⲁ", arabic: "ما", meaning: "مكان" }, { coptic: "ⲙⲉⲓ", arabic: "ميي", meaning: "يُحب" }, { coptic: "ⲙⲱⲟⲩ", arabic: "مؤو", meaning: "ماء" }] }
+                ]
+            },
+            {
+                char: "ⲛ", name: "ني", summary: "ن", type: "ساكن", origin: "يوناني",
+                rules: [
+                    { condition: "يُنطق (ن) دائماً", examples: [{ coptic: "ⲛⲁⲓ", arabic: "ناي", meaning: "لنا / هؤلاء" }, { coptic: "ⲛⲁⲓ", arabic: "ناي", meaning: "رحمة" }, { coptic: "ⲛⲟⲩⲧⲓ", arabic: "نوتي", meaning: "إله" }, { coptic: "ⲛⲟⲩⲃ", arabic: "نوب", meaning: "ذهب" }] }
+                ]
+            },
+            {
+                char: "ⲝ", name: "إكسي", summary: "ك+س", type: "ساكن مزدوج", origin: "يوناني",
+                rules: [
+                    { condition: "يُنطق (ك+س) معاً دائماً", examples: [{ coptic: "ⲥⲁⲣⲝ", arabic: "ساركس", meaning: "جسد" }, { coptic: "ⲁⲝⲓⲟⲥ", arabic: "أكسيوس", meaning: "مستحق" }, { coptic: "ⲧⲁⲝⲓⲥ", arabic: "طاكسيس", meaning: "طقس / ترتيب" }] }
+                ]
+            },
+            {
+                char: "ⲟ", name: "أوميكرون", summary: "و قصيرة", type: "متحرك (للضم)", origin: "يوناني",
+                rules: [
+                    { condition: "ضمة قصيرة مخطوفة في أول الكلمة", examples: [{ coptic: "ⲟⲛ", arabic: "أون", meaning: "أيضاً" }, { coptic: "ⲟⲣⲫⲁⲛⲟⲥ", arabic: "أورفانوس", meaning: "يتيم" }, { coptic: "ⲟϩⲓ", arabic: "أوهي", meaning: "يقف" }] },
+                    { condition: "واو مخطوفة في وسط أو آخر الكلمة", examples: [{ coptic: "ⲥⲟⲛ", arabic: "صون", meaning: "أخ" }, { coptic: "ⲙⲟϣⲓ", arabic: "موشي", meaning: "يمشي" }, { coptic: "ⲣⲟ", arabic: "رو", meaning: "باب" }] }
+                ]
+            },
+            {
+                char: "ⲡ", name: "بي", summary: "ب", type: "ساكن", origin: "يوناني",
+                rules: [
+                    { condition: "يُنطق (ب - P) دائماً", examples: [{ coptic: "ⲡⲉ", arabic: "بي", meaning: "يكون" }, { coptic: "ⲡⲁⲣⲑⲉⲛⲟⲥ", arabic: "بارثينوس", meaning: "عذراء" }, { coptic: "ⲡⲁⲥⲭⲁ", arabic: "باسخا", meaning: "فصح" }] }
+                ]
+            },
+            {
+                char: "ⲣ", name: "رو", summary: "ر", type: "ساكن", origin: "يوناني",
+                rules: [
+                    { condition: "يُنطق (ر) دائماً", examples: [{ coptic: "ⲣⲁⲛ", arabic: "ران", meaning: "اسم" }, { coptic: "ⲣⲱⲙⲓ", arabic: "رومي", meaning: "رجل" }, { coptic: "ⲣⲏ", arabic: "ري", meaning: "شمس" }, { coptic: "ⲣⲁϣⲓ", arabic: "راشي", meaning: "فرح" }] }
+                ]
+            },
+            {
+                char: "ⲥ", name: "سيما", summary: "س / ز / ص", type: "ساكن", origin: "يوناني",
+                rules: [
+                    { condition: "يُنطق (ص) مفخمة إذا جاء بعده (ⲁ, ⲟ, ⲱ)", examples: [{ coptic: "ⲥⲱⲙⲁ", arabic: "صوما", meaning: "جسد" }, { coptic: "ⲥⲱ", arabic: "صو", meaning: "يشرب" }, { coptic: "ⲥⲁ", arabic: "صا", meaning: "ناحية" }, { coptic: "ⲥⲟⲛ", arabic: "صون", meaning: "أخ" }] },
+                    { condition: "يُنطق (ز) إذا جاء بعده حرف (ⲙ) في الكلمات اليونانية", examples: [{ coptic: "ⲕⲟⲥⲙⲟⲥ", arabic: "كوزموس", meaning: "عالم" }, { coptic: "ⲡⲓⲣⲁⲥⲙⲟⲥ", arabic: "بيرازموس", meaning: "تجربة" }, { coptic: "ⲡⲗⲁⲥⲙⲁ", arabic: "بلازما", meaning: "جبلة" }] },
+                    { condition: "يُنطق (س) فيما عدا ذلك", examples: [{ coptic: "ⲥⲱⲧⲉⲙ", arabic: "سوتيم", meaning: "يسمع" }, { coptic: "ⲥⲓ", arabic: "سي", meaning: "يشبع" }, { coptic: "ⲥⲙⲁⲣⲱⲟⲩⲧ", arabic: "سماروأوت", meaning: "مبارك" }] }
+                ]
+            },
+            {
+                char: "ⲧ", name: "تاو", summary: "ت / د / ط / ض", type: "ساكن", origin: "يوناني",
+                rules: [
+                    { condition: "يُنطق (ط) إذا جاء بعده (ⲁ, ⲟ, ⲱ)", examples: [{ coptic: "ⲧⲁⲓⲟ", arabic: "طايو", meaning: "كرامة" }, { coptic: "ⲧⲱⲃϩ", arabic: "طوبه", meaning: "طلبة" }, { coptic: "ⲧⲁⲗϭⲟ", arabic: "طال تشو", meaning: "يشفى" }] },
+                    { condition: "يُنطق (د) في الكلمات اليونانية إذا سبقه حرف (ⲛ)", examples: [{ coptic: "ⲉⲛⲧⲟⲗⲏ", arabic: "إندولي", meaning: "وصية" }, { coptic: "ⲟⲛⲧⲱⲥ", arabic: "أوندوس", meaning: "حقاً" }] },
+                    { condition: "يُنطق (ض) في اليوناني إذا سبقه (ⲛ) وتبعه (ⲁ, ⲟ, ⲱ)", examples: [{ coptic: "ⲡⲁⲛⲧⲟⲕⲣⲁⲧⲱⲣ", arabic: "بانضوكراطور", meaning: "ضابط الكل" }] },
+                    { condition: "يُنطق (ت) غالباً (فيما عدا ذلك)", examples: [{ coptic: "ⲧⲉⲛϩ", arabic: "تِنه", meaning: "جناح" }, { coptic: "ⲧⲏⲃ", arabic: "تيب", meaning: "أصبع" }, { coptic: "ⲓⲱⲧ", arabic: "يوت", meaning: "أب" }, { coptic: "ϩⲏⲧ", arabic: "هيت", meaning: "قلب" }] }
+                ]
+            },
+            {
+                char: "ⲩ", name: "إبسيلون", summary: "ڤ / و / ي", type: "متحرك (للكسر)", origin: "يوناني",
+                rules: [
+                    { condition: "يُنطق (ڤ) إذا سبقه (ⲁ) أو (ⲉ)", examples: [{ coptic: "ⲉⲩⲁ", arabic: "إيڤا", meaning: "حواء" }, { coptic: "ⲛⲁⲩ", arabic: "ناڤ", meaning: "يرى" }, { coptic: "ⲉⲩⲁⲅⲅⲉⲗⲓⲟⲛ", arabic: "إيڤانجيليون", meaning: "إنجيل" }, { coptic: "ⲡⲁⲩⲗⲟⲥ", arabic: "باڤلوس", meaning: "بولس" }] },
+                    { condition: "يُنطق (و) مضمومة إذا سبقه (ⲟ)", examples: [{ coptic: "ⲟⲩⲣⲟ", arabic: "أورو", meaning: "ملك" }, { coptic: "ⲛⲟⲩⲃ", arabic: "نوب", meaning: "ذهب" }, { coptic: "ⲱⲟⲩ", arabic: "أوأوو", meaning: "مجد" }] },
+                    { condition: "يُنطق (ي) فيما عدا ذلك (بين حرفين ساكنين)", examples: [{ coptic: "ⲕⲩⲣⲓⲟⲥ", arabic: "كيريوس", meaning: "رب" }, { coptic: "ⲙⲁⲣⲧⲩⲣⲟⲥ", arabic: "مارتيروس", meaning: "شهيد" }] }
+                ]
+            },
+            {
+                char: "ⲫ", name: "في", summary: "ف", type: "ساكن", origin: "يوناني",
+                rules: [
+                    { condition: "يُنطق (ف - ph) دائماً", examples: [{ coptic: "ⲫⲛⲟⲩⲧⲓ", arabic: "إفنوتي", meaning: "الله" }, { coptic: "ⲫⲁⲓ", arabic: "فاي", meaning: "هذا" }, { coptic: "ⲫⲉ", arabic: "في", meaning: "سماء" }] }
+                ]
+            },
+            {
+                char: "ⲭ", name: "كي", summary: "ك / ش / خ", type: "ساكن", origin: "يوناني",
+                rules: [
+                    { condition: "يُنطق (ك) في الكلمات القبطية فقط", examples: [{ coptic: "ⲭⲱ", arabic: "كو", meaning: "يترك" }, { coptic: "ⲭⲏⲙⲓ", arabic: "كيمي", meaning: "مصر" }, { coptic: "ⲭⲣⲱⲙ", arabic: "كروم", meaning: "نار" }, { coptic: "ⲭⲁⲕⲓ", arabic: "كاكي", meaning: "ظلمة" }] },
+                    { condition: "يُنطق (ش) في الكلمات اليونانية إذا جاء بعده حرف كسر (ⲉ, ⲓ, ⲏ, ⲩ)", examples: [{ coptic: "ⲭⲉⲣⲉ", arabic: "شيري", meaning: "سلام" }, { coptic: "ⲭⲓⲱⲛ", arabic: "شيون", meaning: "ثلج" }, { coptic: "ⲯⲩⲭⲏ", arabic: "إبسيشي", meaning: "نفس" }, { coptic: "ⲓⲥⲭⲩⲣⲟⲥ", arabic: "إسشيروس", meaning: "قوي" }] },
+                    { condition: "يُنطق (خ) في الكلمات اليونانية فيما عدا ذلك (مثل الفتح والضم)", examples: [{ coptic: "ⲙⲟⲛⲁⲭⲟⲥ", arabic: "موناخوس", meaning: "راهب" }, { coptic: "ⲭⲣⲓⲥⲧⲟⲥ", arabic: "إخريستوس", meaning: "مسيح" }, { coptic: "ⲭⲁⲣⲓⲥ", arabic: "خاريس", meaning: "نعمة" }, { coptic: "ⲭⲟⲣⲟⲥ", arabic: "خوروس", meaning: "صف" }] }
+                ]
+            },
+            {
+                char: "ⲯ", name: "إبسي", summary: "ب+س", type: "ساكن مزدوج", origin: "يوناني",
+                rules: [
+                    { condition: "يُنطق (ب+س) معاً دائماً", examples: [{ coptic: "ⲯⲁⲗⲙⲟⲥ", arabic: "إبصالموس", meaning: "مزمور" }, { coptic: "ⲯⲩⲭⲏ", arabic: "إبسيشي", meaning: "نفس" }, { coptic: "ⲯⲓⲧ", arabic: "إبسيت", meaning: "تسعة" }] }
+                ]
+            },
+            {
+                char: "ⲱ", name: "أوميجا", summary: "و طويلة", type: "متحرك (للضم)", origin: "يوناني",
+                rules: [
+                    { condition: "يُنطق (و) طويلة مفخمة للضم (في أول أو وسط أو آخر الكلمة)", examples: [{ coptic: "ⲱⲛϧ", arabic: "أونخ", meaning: "حياة" }, { coptic: "ⲥⲱⲛⲓ", arabic: "صوني", meaning: "أخت" }, { coptic: "ϫⲱⲙ", arabic: "جوم", meaning: "كتاب" }, { coptic: "ⲥⲱ", arabic: "صو", meaning: "يشرب" }] }
+                ]
+            },
+            {
+                char: "ϣ", name: "شاي", summary: "ش", type: "ساكن", origin: "ديموطيقي",
+                rules: [
+                    { condition: "يُنطق (ش) دائماً", examples: [{ coptic: "ϣⲉ", arabic: "شي", meaning: "خشب" }, { coptic: "ϣⲁ", arabic: "شا", meaning: "إلى/لغاية" }, { coptic: "ϣⲟⲣⲡ", arabic: "شورب", meaning: "فجر" }] }
+                ]
+            },
+            {
+                char: "ϥ", name: "فاي", summary: "ف", type: "ساكن", origin: "ديموطيقي",
+                rules: [
+                    { condition: "يُنطق (ف) دائماً", examples: [{ coptic: "ϥⲱⲧⲉ", arabic: "فوتي", meaning: "يمسح" }, { coptic: "ϥⲁⲓ", arabic: "فاي", meaning: "يحمل" }] }
+                ]
+            },
+            {
+                char: "ϧ", name: "خاي", summary: "خ", type: "ساكن", origin: "ديموطيقي",
+                rules: [
+                    { condition: "يُنطق (خ) دائماً", examples: [{ coptic: "ϧⲉⲛ", arabic: "خين", meaning: "في" }, { coptic: "ϧⲁⲧⲉⲛ", arabic: "خاتين", meaning: "عند" }] }
+                ]
+            },
+            {
+                char: "ϩ", name: "هوري", summary: "هـ", type: "ساكن", origin: "ديموطيقي",
+                rules: [
+                    { condition: "يُنطق (هـ) دائماً", examples: [{ coptic: "ϩⲏⲧ", arabic: "هيت", meaning: "قلب" }, { coptic: "ϩⲟⲩⲓ", arabic: "هوي", meaning: "يلقي" }, { coptic: "ϩⲱⲃ", arabic: "هوب", meaning: "عمل" }] }
+                ]
+            },
+            {
+                char: "ϫ", name: "جانجا", summary: "ج / چ", type: "ساكن", origin: "ديموطيقي",
+                rules: [
+                    { condition: "يُنطق (ج/چ - معطشة) إذا جاء بعده حرف متحرك للكسر (ⲉ, ⲓ, ⲏ, ⲩ)", examples: [{ coptic: "ϫⲏⲕ", arabic: "جيك", meaning: "كامل" }, { coptic: "ϫⲓϫ", arabic: "جيج", meaning: "يد" }, { coptic: "ϫⲉ", arabic: "جي", meaning: "لأن" }, { coptic: "ϫⲓⲛϫⲏ", arabic: "جينجي", meaning: "مجاناً" }] },
+                    { condition: "يُنطق (ج - غليظة) فيما عدا ذلك (قبل الفتح أو الضم أو الساكن)", examples: [{ coptic: "ϫⲱⲙ", arabic: "جوم", meaning: "كتاب" }, { coptic: "ϫⲟⲙ", arabic: "جوم", meaning: "قوة" }, { coptic: "ϫⲁϫⲓ", arabic: "جاجي", meaning: "عدو" }, { coptic: "ⲟⲩϫⲁⲓ", arabic: "أوجاي", meaning: "خلاص" }] }
+                ]
+            },
+            {
+                char: "ϭ", name: "تشيما", summary: "ت+ش", type: "ساكن", origin: "ديموطيقي",
+                rules: [
+                    { condition: "يُنطق (ت+ش - ch) دائماً", examples: [{ coptic: "ϭⲟⲓⲥ", arabic: "تشويس", meaning: "رب" }, { coptic: "ϭⲁⲗⲟϫ", arabic: "تشالوج", meaning: "قدم" }, { coptic: "ϭⲣⲟ", arabic: "تشرو", meaning: "غالب" }] }
+                ]
+            },
+            {
+                char: "ϯ", name: "تي", summary: "ت+ي", type: "مقطع", origin: "ديموطيقي",
+                rules: [
+                    { condition: "يُنطق (تي) دائماً وهو عبارة عن حرفين معاً", examples: [{ coptic: "ϯⲙⲓ", arabic: "تيمي", meaning: "قرية" }, { coptic: "ϯ", arabic: "تي", meaning: "يعطي / أنا" }] }
+                ]
+            }
+        ];
+
         const courseData = [
+            {
+                id: -1,
+                title: "الصلاة الربانية",
+                subtitle: "أبانا الذي - قراءة وتدريب",
+                icon: "fa-hands-praying",
+                content: `
+                    <div class="bg-white rounded-xl shadow-md p-4 sm:p-6 mb-6 border border-gray-100">
+                        <div class="text-center mb-6 border-b pb-4">
+                            <h2 class="text-2xl sm:text-3xl font-bold text-copticRed mb-2" style="font-family: 'Cairo', sans-serif;">الصلاة الربانية (چي بينيوت)</h2>
+                            <p class="text-sm text-gray-500 mt-2">تدريب عملي على القراءة والنطق الصحيح مع المعنى باللغة العربية</p>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 text-center hover:border-copticGold transition">
+                                <p class="text-gray-800 font-bold mb-2">واجعلنا مستحقين أن نقول بشكر:</p>
+                                <p class="coptic-text text-2xl md:text-3xl text-copticRed mb-3">Ⲁⲣⲓⲧⲉⲛ ⲛ̀ⲉⲙⲡ̀ϣⲁ ⲛ̀ϫⲟⲥ ϧⲉⲛ ⲟⲩϣⲉⲡ̀ϩⲙⲟⲧ</p>
+                                <div class="flex flex-col gap-2 items-center">
+                                    <span class="bg-yellow-100 text-darkText px-4 py-1 rounded-full font-bold text-sm shadow-sm">أريتين إم إبشا إن جوس خين أو شيب إهموت</span>
+                                </div>
+                            </div>
+
+                            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 text-center hover:border-copticGold transition">
+                                <p class="text-gray-800 font-bold mb-2">أبانا الذي في السموات.</p>
+                                <p class="coptic-text text-2xl md:text-3xl text-copticRed mb-3">Ϫⲉ ⲡⲉⲛⲓⲱⲧ ⲉⲧϧⲉⲛ ⲛⲓⲫⲏⲟⲩⲓ̀</p>
+                                <div class="flex flex-col gap-2 items-center">
+                                    <span class="bg-yellow-100 text-darkText px-4 py-1 rounded-full font-bold text-sm shadow-sm">جى بنيوت إتخين نى فيؤوي</span>
+                                </div>
+                            </div>
+
+                            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 text-center hover:border-copticGold transition">
+                                <p class="text-gray-800 font-bold mb-2">ليتقدس اسمك.</p>
+                                <p class="coptic-text text-2xl md:text-3xl text-copticRed mb-3">ⲙⲁⲣⲉϥⲧⲟⲩⲃⲟ ⲛ̀ϫⲉ ⲡⲉⲕⲣⲁⲛ</p>
+                                <div class="flex flex-col gap-2 items-center">
+                                    <span class="bg-yellow-100 text-darkText px-4 py-1 rounded-full font-bold text-sm shadow-sm">ماريف توفو إنجيه بيكران</span>
+                                </div>
+                            </div>
+
+                            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 text-center hover:border-copticGold transition">
+                                <p class="text-gray-800 font-bold mb-2">ليأت ملكوتك.</p>
+                                <p class="coptic-text text-2xl md:text-3xl text-copticRed mb-3">ⲙⲁⲣⲉⲥⲓ̀ ⲛ̀ϫⲉ ⲧⲉⲕⲙⲉⲧⲟⲩⲣⲟ</p>
+                                <div class="flex flex-col gap-2 items-center">
+                                    <span class="bg-yellow-100 text-darkText px-4 py-1 rounded-full font-bold text-sm shadow-sm">ماريسئي إنجيه تيك ميت أوورو</span>
+                                </div>
+                            </div>
+
+                            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 text-center hover:border-copticGold transition">
+                                <p class="text-gray-800 font-bold mb-2">لتكن مشيئتك.</p>
+                                <p class="coptic-text text-2xl md:text-3xl text-copticRed mb-3">ⲡⲉⲧⲉϩⲛⲁⲕ ⲙⲁⲣⲉϥϣⲱⲡⲓ</p>
+                                <div class="flex flex-col gap-2 items-center">
+                                    <span class="bg-yellow-100 text-darkText px-4 py-1 rounded-full font-bold text-sm shadow-sm">بيت إهناك ماريف شوبي</span>
+                                </div>
+                            </div>
+
+                            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 text-center hover:border-copticGold transition">
+                                <p class="text-gray-800 font-bold mb-2">كما في السماء</p>
+                                <p class="coptic-text text-2xl md:text-3xl text-copticRed mb-3">ⲙ̀ⲫ̀ⲣⲏϯ ϧⲉⲛ ⲧ̀ⲫⲉ</p>
+                                <div class="flex flex-col gap-2 items-center">
+                                    <span class="bg-yellow-100 text-darkText px-4 py-1 rounded-full font-bold text-sm shadow-sm">أيم أفريتى خين إتفيه</span>
+                                </div>
+                            </div>
+
+                            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 text-center hover:border-copticGold transition">
+                                <p class="text-gray-800 font-bold mb-2">كذلك على الأرض.</p>
+                                <p class="coptic-text text-2xl md:text-3xl text-copticRed mb-3">ⲛⲉⲙ ϩⲓϫⲉⲛ ⲡⲓⲕⲁϩⲓ</p>
+                                <div class="flex flex-col gap-2 items-center">
+                                    <span class="bg-yellow-100 text-darkText px-4 py-1 rounded-full font-bold text-sm shadow-sm">نيم هيجين بي كاهي</span>
+                                </div>
+                            </div>
+
+                            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 text-center hover:border-copticGold transition">
+                                <p class="text-gray-800 font-bold mb-2">خُبزنا كفافنا أعطنا اليوم.</p>
+                                <p class="coptic-text text-xl md:text-2xl text-copticRed mb-3" style="line-height: 1.5;">ⲡⲉⲛⲱⲓⲕ ⲛ̀ⲧⲉ ⲣⲁⲥϯ ⲙⲏⲓϥ ⲛⲁⲛ ⲙ̀ⲫⲟⲟⲩ</p>
+                                <div class="flex flex-col gap-2 items-center">
+                                    <span class="bg-yellow-100 text-darkText px-4 py-1 rounded-full font-bold text-xs sm:text-sm shadow-sm">بين أويك إنتيه راستي، مييف نان إيم فو أوو</span>
+                                </div>
+                            </div>
+
+                            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 text-center hover:border-copticGold transition">
+                                <p class="text-gray-800 font-bold mb-2">وأغفر لنا ذنوبنا</p>
+                                <p class="coptic-text text-xl md:text-2xl text-copticRed mb-3">ⲟⲩⲟϩ ⲭⲁ ⲛⲏⲉⲧⲉⲣⲟⲛ ⲛⲁⲛ ⲉ̀ⲃⲟⲗ</p>
+                                <div class="flex flex-col gap-2 items-center">
+                                    <span class="bg-yellow-100 text-darkText px-4 py-1 rounded-full font-bold text-xs sm:text-sm shadow-sm">أووه كاني إت إيرون، نان ايفول</span>
+                                </div>
+                            </div>
+
+                            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 text-center hover:border-copticGold transition">
+                                <p class="text-gray-800 font-bold mb-2">كما نغفر نحن أيضا للمذنبين إلينا.</p>
+                                <p class="coptic-text text-xl md:text-2xl text-copticRed mb-3" style="line-height: 1.5;">ⲙ̀ⲫ̀ⲣⲏϯ ϩⲱⲛ ⲛ̀ⲧⲉⲛⲭⲱ ⲉ̀ⲃⲟⲗ ⲛ̀ⲛⲏⲉⲧⲉ ⲟⲩⲟⲛ ⲛ̀ⲧⲁⲛ ⲉ̀ⲣⲱⲟⲩ</p>
+                                <div class="flex flex-col gap-2 items-center">
+                                    <span class="bg-yellow-100 text-darkText px-4 py-1 rounded-full font-bold text-xs sm:text-sm shadow-sm">إم افريتي هون، إنتين كو إيفول. ان نى إيتيه أوو أون انتان ايرو أوو</span>
+                                </div>
+                            </div>
+
+                            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 text-center hover:border-copticGold transition">
+                                <p class="text-gray-800 font-bold mb-2">ولا تدخلنا في تجربة.</p>
+                                <p class="coptic-text text-2xl md:text-3xl text-copticRed mb-3">ⲟⲩⲟϩ ⲙ̀ⲡⲉⲣⲉⲛⲧⲉⲛ ⲉ̀ϧⲟⲩⲛ ⲉ̀ⲡⲓⲣⲁⲥⲙⲟⲥ</p>
+                                <div class="flex flex-col gap-2 items-center">
+                                    <span class="bg-yellow-100 text-darkText px-4 py-1 rounded-full font-bold text-sm shadow-sm">أووه إيم بير انتين ايخوون إبي راسموس</span>
+                                </div>
+                            </div>
+
+                            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 text-center hover:border-copticGold transition">
+                                <p class="text-gray-800 font-bold mb-2">لكن نجنا من الشرير.</p>
+                                <p class="coptic-text text-xl md:text-2xl text-copticRed mb-3">ⲁⲗⲗⲁ ⲛⲁϩⲙⲉⲛ ⲉ̀ⲃⲟⲗ ϩⲁ ⲡⲓⲡⲉⲧϩⲱⲟⲩ</p>
+                                <div class="flex flex-col gap-2 items-center">
+                                    <span class="bg-yellow-100 text-darkText px-4 py-1 rounded-full font-bold text-xs sm:text-sm shadow-sm">اللاناهمين ايفول هابي بيت هو أوو</span>
+                                </div>
+                            </div>
+
+                            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 text-center hover:border-copticGold transition">
+                                <p class="text-gray-800 font-bold mb-2">بالمسيح يسوع ربنا،</p>
+                                <p class="coptic-text text-xl md:text-2xl text-copticRed mb-3">ϧⲉⲛ Ⲡⲭ̅ⲥ Ⲓⲏ̅ⲥ Ⲡⲉⲛⲟ̅ⲥ</p>
+                                <div class="flex flex-col gap-2 items-center">
+                                    <span class="bg-yellow-100 text-darkText px-4 py-1 rounded-full font-bold text-xs sm:text-sm shadow-sm">خين بى اخرستوس ايسوس بين اتشويس</span>
+                                </div>
+                            </div>
+
+                            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 text-center hover:border-copticGold transition">
+                                <p class="text-gray-800 font-bold mb-2">لأن لك الملك والقوة والمجد إلى الأبد. آمين.</p>
+                                <p class="coptic-text text-xl md:text-2xl text-copticRed mb-3" style="line-height: 1.5;">Ϫⲉ ⲑⲱⲕ ⲧⲉ ϯⲙⲉⲧⲟⲩⲣⲟ ⲛⲉⲙ ϯϫⲟⲙ ⲛⲉⲙ ⲡⲓⲱⲟⲩ ϣⲁ ⲉ̀ⲛⲉϩ . Ⲁⲙⲏⲛ .</p>
+                                <div class="flex flex-col gap-2 items-center">
+                                    <span class="bg-yellow-100 text-darkText px-4 py-1 rounded-full font-bold text-xs sm:text-sm shadow-sm">جى ثوك تيه تى ميت أوروو، نيم تى جوم نيم بى أوأوو شا إينيه .. آمين.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
             {
                 id: 0,
                 title: "مقدمة الكورس",
                 subtitle: "لوحة الحروف للحفظ والمراجعة",
                 icon: "fa-book-open",
-                content: `
-                    <div class="bg-white rounded-xl shadow-md p-6 mb-6 border border-gray-100">
-                        <h2 class="text-2xl font-bold text-copticRed mb-4 border-b pb-2"><i class="fa-solid fa-table-cells ml-2"></i>الحروف القبطية (32 حرف)</h2>
-                        <p class="text-sm text-gray-600 mb-6">هذه اللوحة صُممت لتسهيل الحفظ السريع على الموبايل، وتتضمن الحرف، اسمه، ونطقه الشائع.</p>
-                        
-                        <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
-                            <div class="letter-card border-b-4 border-copticGold">
-                                <span class="coptic-text coptic-large">ⲁ</span>
-                                <span class="font-bold mt-1 text-sm">ألفا</span>
-                                <span class="text-xs text-gray-500">آه</span>
-                            </div>
-                            <div class="letter-card">
-                                <span class="coptic-text coptic-large">ⲃ</span>
-                                <span class="font-bold mt-1 text-sm">فيتا</span>
-                                <span class="text-xs text-gray-500">ف / ب / ڤ</span>
-                            </div>
-                            <div class="letter-card">
-                                <span class="coptic-text coptic-large">ⲅ</span>
-                                <span class="font-bold mt-1 text-sm">غاما</span>
-                                <span class="text-xs text-gray-500">غ / ن / ج</span>
-                            </div>
-                            <div class="letter-card">
-                                <span class="coptic-text coptic-large">ⲇ</span>
-                                <span class="font-bold mt-1 text-sm">دلتا</span>
-                                <span class="text-xs text-gray-500">د / ذ</span>
-                            </div>
-                            <div class="letter-card border-b-4 border-copticGold">
-                                <span class="coptic-text coptic-large">ⲉ</span>
-                                <span class="font-bold mt-1 text-sm">إي</span>
-                                <span class="text-xs text-gray-500">ي قصيرة</span>
-                            </div>
-                            <div class="letter-card bg-gray-50">
-                                <span class="coptic-text coptic-large">ⲋ</span>
-                                <span class="font-bold mt-1 text-sm">سو</span>
-                                <span class="text-xs text-gray-500 text-copticRed">(رقم 6)</span>
-                            </div>
-                            <div class="letter-card">
-                                <span class="coptic-text coptic-large">ⲍ</span>
-                                <span class="font-bold mt-1 text-sm">زيتا</span>
-                                <span class="text-xs text-gray-500">ز</span>
-                            </div>
-                            <div class="letter-card border-b-4 border-copticGold">
-                                <span class="coptic-text coptic-large">ⲏ</span>
-                                <span class="font-bold mt-1 text-sm">إيتا</span>
-                                <span class="text-xs text-gray-500">ي طويلة</span>
-                            </div>
-                            <div class="letter-card">
-                                <span class="coptic-text coptic-large">ⲑ</span>
-                                <span class="font-bold mt-1 text-sm">ثيتا</span>
-                                <span class="text-xs text-gray-500">ث / ت</span>
-                            </div>
-                            <div class="letter-card border-b-4 border-copticGold">
-                                <span class="coptic-text coptic-large">ⲓ</span>
-                                <span class="font-bold mt-1 text-sm">يوطا</span>
-                                <span class="text-xs text-gray-500">كسرة/ ي</span>
-                            </div>
-                            <div class="letter-card">
-                                <span class="coptic-text coptic-large">ⲕ</span>
-                                <span class="font-bold mt-1 text-sm">كبا</span>
-                                <span class="text-xs text-gray-500">ك</span>
-                            </div>
-                            <div class="letter-card">
-                                <span class="coptic-text coptic-large">ⲗ</span>
-                                <span class="font-bold mt-1 text-sm">لولا</span>
-                                <span class="text-xs text-gray-500">ل</span>
-                            </div>
-                            <div class="letter-card">
-                                <span class="coptic-text coptic-large">ⲙ</span>
-                                <span class="font-bold mt-1 text-sm">مي</span>
-                                <span class="text-xs text-gray-500">م</span>
-                            </div>
-                            <div class="letter-card">
-                                <span class="coptic-text coptic-large">ⲛ</span>
-                                <span class="font-bold mt-1 text-sm">ني</span>
-                                <span class="text-xs text-gray-500">ن</span>
-                            </div>
-                            <div class="letter-card">
-                                <span class="coptic-text coptic-large">ⲝ</span>
-                                <span class="font-bold mt-1 text-sm">إكسي</span>
-                                <span class="text-xs text-gray-500">ك+س</span>
-                            </div>
-                            <div class="letter-card border-b-4 border-copticGold">
-                                <span class="coptic-text coptic-large">ⲟ</span>
-                                <span class="font-bold mt-1 text-sm">أوميكرون</span>
-                                <span class="text-xs text-gray-500">و قصيرة</span>
-                            </div>
-                            <div class="letter-card">
-                                <span class="coptic-text coptic-large">ⲡ</span>
-                                <span class="font-bold mt-1 text-sm">بي</span>
-                                <span class="text-xs text-gray-500">ب (P)</span>
-                            </div>
-                            <div class="letter-card">
-                                <span class="coptic-text coptic-large">ⲣ</span>
-                                <span class="font-bold mt-1 text-sm">رو</span>
-                                <span class="text-xs text-gray-500">ر</span>
-                            </div>
-                            <div class="letter-card">
-                                <span class="coptic-text coptic-large">ⲥ</span>
-                                <span class="font-bold mt-1 text-sm">سيما</span>
-                                <span class="text-xs text-gray-500">س / ز</span>
-                            </div>
-                            <div class="letter-card">
-                                <span class="coptic-text coptic-large">ⲧ</span>
-                                <span class="font-bold mt-1 text-sm">تاو</span>
-                                <span class="text-xs text-gray-500">ت / د</span>
-                            </div>
-                            <div class="letter-card border-b-4 border-copticGold">
-                                <span class="coptic-text coptic-large">ⲩ</span>
-                                <span class="font-bold mt-1 text-sm">إبسيلون</span>
-                                <span class="text-xs text-gray-500">ڤ / و / ي</span>
-                            </div>
-                            <div class="letter-card">
-                                <span class="coptic-text coptic-large">ⲫ</span>
-                                <span class="font-bold mt-1 text-sm">في</span>
-                                <span class="text-xs text-gray-500">ف</span>
-                            </div>
-                            <div class="letter-card">
-                                <span class="coptic-text coptic-large">ⲭ</span>
-                                <span class="font-bold mt-1 text-sm">كي</span>
-                                <span class="text-xs text-gray-500">ك / ش / خ</span>
-                            </div>
-                            <div class="letter-card">
-                                <span class="coptic-text coptic-large">ⲯ</span>
-                                <span class="font-bold mt-1 text-sm">إبسي</span>
-                                <span class="text-xs text-gray-500">ب+س</span>
-                            </div>
-                            <div class="letter-card border-b-4 border-copticGold">
-                                <span class="coptic-text coptic-large">ⲱ</span>
-                                <span class="font-bold mt-1 text-sm">أوميجا</span>
-                                <span class="text-xs text-gray-500">و طويلة</span>
-                            </div>
-                            <div class="letter-card bg-red-50 border-copticRed border-b-4">
-                                <span class="coptic-text coptic-large">ϣ</span>
-                                <span class="font-bold mt-1 text-sm">شاي</span>
-                                <span class="text-xs text-gray-500">ش</span>
-                            </div>
-                            <div class="letter-card bg-red-50 border-copticRed border-b-4">
-                                <span class="coptic-text coptic-large">ϥ</span>
-                                <span class="font-bold mt-1 text-sm">فاي</span>
-                                <span class="text-xs text-gray-500">ف</span>
-                            </div>
-                            <div class="letter-card bg-red-50 border-copticRed border-b-4">
-                                <span class="coptic-text coptic-large">ϧ</span>
-                                <span class="font-bold mt-1 text-sm">خاي</span>
-                                <span class="text-xs text-gray-500">خ</span>
-                            </div>
-                            <div class="letter-card bg-red-50 border-copticRed border-b-4">
-                                <span class="coptic-text coptic-large">ϩ</span>
-                                <span class="font-bold mt-1 text-sm">هوري</span>
-                                <span class="text-xs text-gray-500">هـ</span>
-                            </div>
-                            <div class="letter-card bg-red-50 border-copticRed border-b-4">
-                                <span class="coptic-text coptic-large">ϫ</span>
-                                <span class="font-bold mt-1 text-sm">جانجا</span>
-                                <span class="text-xs text-gray-500">ج / چ</span>
-                            </div>
-                            <div class="letter-card bg-red-50 border-copticRed border-b-4">
-                                <span class="coptic-text coptic-large">ϭ</span>
-                                <span class="font-bold mt-1 text-sm">تشيما</span>
-                                <span class="text-xs text-gray-500">ت+ش</span>
-                            </div>
-                            <div class="letter-card bg-red-50 border-copticRed border-b-4">
-                                <span class="coptic-text coptic-large">ϯ</span>
-                                <span class="font-bold mt-1 text-sm">تي</span>
-                                <span class="text-xs text-gray-500">ت+ي</span>
-                            </div>
-                        </div>
-                        <div class="mt-4 flex gap-4 text-xs justify-center items-center">
-                            <span class="flex items-center gap-1"><div class="w-3 h-3 bg-copticGold rounded-full"></div> حروف متحركة</span>
-                            <span class="flex items-center gap-1"><div class="w-3 h-3 bg-red-100 border border-copticRed rounded-full"></div> حروف ديموطيقية</span>
-                        </div>
-                    </div>
-                `
+                content: "" // سيتم توليدها برمجياً لربط الكروت
             },
             {
                 id: 1,
@@ -554,6 +726,105 @@
         const mainContainer = document.getElementById('main-container');
         const homeBtn = document.getElementById('homeBtn');
 
+        // توليد لوحة الحروف لربط كل كارت بالصفحة الخاصة به
+        function getAlphabetBoardHTML() {
+            let gridHTML = '<div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">';
+            lettersData.forEach((letter, index) => {
+                let borderClass = letter.type.includes("متحرك") ? "border-b-4 border-copticGold" : (letter.origin === "ديموطيقي" ? "bg-red-50 border-copticRed border-b-4" : "border-b-4 border-gray-200");
+                gridHTML += `
+                    <div onclick="showLetterDetails(${index})" class="letter-card ${borderClass} cursor-pointer hover:bg-gray-100 transition transform active:scale-95">
+                        <span class="coptic-text coptic-large">${letter.char}</span>
+                        <span class="font-bold mt-1 text-sm">${letter.name}</span>
+                        <span class="text-xs text-gray-500">${letter.summary}</span>
+                    </div>
+                `;
+            });
+            gridHTML += '</div>';
+
+            return `
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6 border border-gray-100">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-4 mb-6">
+                        <h2 class="text-2xl font-bold text-copticRed"><i class="fa-solid fa-table-cells ml-2"></i>الحروف القبطية (32 حرف)</h2>
+                        <span class="mt-2 md:mt-0 text-sm font-bold text-white bg-copticGold px-4 py-2 rounded-full shadow animate-pulse"><i class="fa-solid fa-hand-pointer ml-2"></i>اضغط على أي حرف لتعلم قواعده ونطقه</span>
+                    </div>
+                    ${gridHTML}
+                    <div class="mt-6 flex flex-wrap gap-4 text-xs justify-center items-center bg-gray-50 p-4 rounded-lg border">
+                        <span class="flex items-center gap-1"><div class="w-3 h-3 bg-copticGold rounded-full"></div> حروف متحركة</span>
+                        <span class="flex items-center gap-1"><div class="w-3 h-3 bg-red-100 border border-copticRed rounded-full"></div> حروف ديموطيقية</span>
+                        <span class="flex items-center gap-1"><div class="w-3 h-3 bg-gray-200 rounded-full"></div> حروف ساكنة</span>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // حقن المحتوى داخل بيانات الأسبوع 0 (مقدمة الكورس) بالبحث عن الـ ID وليس الترتيب
+        const introWeek = courseData.find(week => week.id === 0);
+        if (introWeek) {
+            introWeek.content = getAlphabetBoardHTML();
+        }
+
+        // دالة عرض تفاصيل وقواعد الحرف عند الضغط عليه
+        function showLetterDetails(index) {
+            const letter = lettersData[index];
+            homeBtn.classList.remove('hidden');
+            
+            let rulesHTML = '';
+            letter.rules.forEach((rule, rIdx) => {
+                let examplesHTML = '';
+                rule.examples.forEach(ex => {
+                    examplesHTML += `
+                        <div class="bg-gray-50 p-4 rounded-lg border-2 border-gray-100 flex flex-col items-center justify-center text-center transition hover:border-copticGold">
+                            <span class="coptic-text text-3xl mb-2 text-copticRed">${ex.coptic}</span>
+                            <span class="font-bold text-darkText bg-yellow-100 px-3 py-1 rounded-full text-sm mb-2">${ex.arabic}</span>
+                            <span class="text-sm font-semibold text-gray-500">${ex.meaning}</span>
+                        </div>
+                    `;
+                });
+
+                rulesHTML += `
+                    <div class="mb-8 ${rIdx !== letter.rules.length - 1 ? 'border-b pb-8' : ''}">
+                        <div class="flex items-start gap-3 mb-4 bg-red-50 p-4 rounded-lg border border-red-100">
+                            <i class="fa-solid fa-lightbulb text-copticGold text-xl mt-1"></i>
+                            <div>
+                                <h4 class="text-lg font-bold text-darkText">${rule.condition}</h4>
+                            </div>
+                        </div>
+                        <h5 class="text-sm font-bold text-gray-500 mb-3"><i class="fa-solid fa-list ml-1"></i> أمثلة للتوضيح:</h5>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            ${examplesHTML}
+                        </div>
+                    </div>
+                `;
+            });
+
+            let html = `
+                <div class="fade-in">
+                    <div class="mb-6 flex justify-between items-center border-b-2 border-copticGold pb-4">
+                        <div class="flex items-center gap-4">
+                            <div class="w-20 h-20 bg-copticRed text-white rounded-2xl flex justify-center items-center text-5xl coptic-text shadow-lg border-4 border-copticGold">
+                                ${letter.char}
+                            </div>
+                            <div>
+                                <h2 class="text-3xl font-bold text-copticRed">${letter.name} <span class="text-gray-400 text-lg font-normal">(${letter.summary})</span></h2>
+                                <div class="flex flex-wrap gap-2 mt-2">
+                                    <span class="bg-gray-100 text-xs font-bold px-3 py-1 rounded-full text-gray-700">${letter.type}</span>
+                                    <span class="bg-gray-100 text-xs font-bold px-3 py-1 rounded-full text-gray-700">أصل ${letter.origin}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button onclick="renderLesson(0)" class="bg-gray-100 hover:bg-gray-200 text-gray-800 p-3 rounded-full flex justify-center items-center h-12 w-12 transition text-xl shadow-sm border border-gray-200" title="العودة للوحة الحروف">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+                        ${rulesHTML}
+                    </div>
+                </div>
+            `;
+            mainContainer.innerHTML = html;
+            window.scrollTo(0,0);
+        }
+
         function renderHome() {
             homeBtn.classList.add('hidden');
             let html = `
@@ -566,15 +837,32 @@
             `;
             
             courseData.forEach(week => {
-                // ميزنا شكل كارت المقدمة عشان يشد الانتباه
+                // تمييز الكروت بناءً على نوعها
+                const isPrayer = week.id === -1;
                 const isIntro = week.id === 0;
-                const bgClass = isIntro ? 'bg-parchment border-copticGold border-2' : 'bg-white border-gray-100 border';
-                const textClass = isIntro ? 'text-copticRed' : 'text-darkText';
-                const iconColorClass = isIntro ? 'text-copticRed' : 'text-copticGold';
-                const headerBgClass = isIntro ? 'bg-copticGold' : 'bg-copticRed';
+                
+                let bgClass = 'bg-white border-gray-100 border';
+                let textClass = 'text-darkText';
+                let iconColorClass = 'text-copticGold';
+                let headerBgClass = 'bg-copticRed';
+                let badgeText = 'ابدأ المذاكرة';
+
+                if (isPrayer) {
+                    bgClass = 'bg-red-50 border-copticRed border-2';
+                    textClass = 'text-copticRed';
+                    iconColorClass = 'text-white';
+                    headerBgClass = 'bg-copticRed';
+                    badgeText = 'اقرأ وصلي';
+                } else if (isIntro) {
+                    bgClass = 'bg-parchment border-copticGold border-2';
+                    textClass = 'text-copticRed';
+                    iconColorClass = 'text-copticRed';
+                    headerBgClass = 'bg-copticGold';
+                    badgeText = 'ابدأ الحفظ الآن';
+                }
 
                 html += `
-                    <div onclick="renderLesson(${week.id})" class="lesson-card ${bgClass} rounded-2xl shadow-lg overflow-hidden cursor-pointer flex flex-col h-full fade-in" style="animation-delay: ${week.id * 0.05}s">
+                    <div onclick="renderLesson(${week.id})" class="lesson-card ${bgClass} rounded-2xl shadow-lg overflow-hidden cursor-pointer flex flex-col h-full fade-in" style="animation-delay: ${(week.id + 1) * 0.05}s">
                         <div class="${headerBgClass} ${iconColorClass} p-4 flex justify-center items-center transition-colors">
                             <i class="fa-solid ${week.icon} text-4xl opacity-90"></i>
                         </div>
@@ -583,7 +871,7 @@
                             <p class="text-sm text-gray-600">${week.subtitle}</p>
                         </div>
                         <div class="bg-gray-50 p-3 text-center border-t text-sm font-semibold text-copticRed">
-                            ${isIntro ? 'ابدأ الحفظ الآن' : 'ابدأ المذاكرة'} <i class="fa-solid fa-arrow-left ml-1 text-xs"></i>
+                            ${badgeText} <i class="fa-solid fa-arrow-left ml-1 text-xs"></i>
                         </div>
                     </div>
                 `;
