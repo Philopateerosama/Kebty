@@ -577,62 +577,201 @@
                 icon: "fa-tags",
                 content: `
                     <div class="bg-white rounded-xl shadow-md p-6 mb-6 border border-gray-100">
-                        <h2 class="text-2xl font-bold text-copticRed mb-4 border-b pb-2"><i class="fa-solid fa-compress ml-2"></i>الاختصارات</h2>
-                        <p class="mb-4">توضع علامة تشبه الشرطة فوق الكلمة المختصرة، وعادة تُستخدم للكلمات المقدسة:</p>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-right">
-                            <div class="p-3 bg-gray-50 rounded border"><span class="coptic-text mr-2">ⲭ̅ⲥ̅</span> = ⲭⲣⲓⲥⲧⲟⲥ (مسيح)</div>
-                            <div class="p-3 bg-gray-50 rounded border"><span class="coptic-text mr-2">ⲓ̅ⲥ̅</span> = ⲓⲏⲥⲟⲩⲥ (يسوع)</div>
-                            <div class="p-3 bg-gray-50 rounded border"><span class="coptic-text mr-2">ⲉⲑ̅ⲩ̅</span> = ⲉⲑⲟⲩⲁⲃ (مقدس/قديس)</div>
-                            <div class="p-3 bg-gray-50 rounded border"><span class="coptic-text mr-2">ⲫ̅ϯ</span> = ⲫⲛⲟⲩϯ (الله)</div>
+                        <h2 class="text-2xl font-bold text-copticRed mb-4 border-b pb-2"><i class="fa-solid fa-lightbulb ml-2"></i>مقدمة هامة</h2>
+                        <p class="mb-4 text-gray-700 leading-relaxed">في اللغة القبطية، لا بد أن تسبق الكلمة أداة تحدد نوعها، هل هي نكرة (أي شيء غير محدد) أم معرفة (شيء محدد بذاته). <strong>الأداة تُغير معنى الكلمة ومقصدها.</strong></p>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md p-6 mb-6 border border-gray-100">
+                        <h2 class="text-2xl font-bold text-copticRed mb-4 border-b pb-2"><i class="fa-regular fa-star ml-2"></i>أدوات التنكير (Indefinite Articles)</h2>
+                        <p class="mb-4 text-gray-700">تُستخدم لتدل على شيء غير محدد (مثل "أم" بدلاً من "الأم").</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="p-4 bg-parchment rounded-lg border border-copticGold">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <span class="coptic-text text-3xl text-copticRed">ⲟⲩ</span> 
+                                    <span class="bg-yellow-100 px-2 py-1 rounded text-sm font-bold text-darkText">أو</span>
+                                </div>
+                                <p class="font-bold text-copticRed mb-2">للمفرد (مذكر ومؤنث)</p>
+                                <ul class="space-y-2 text-sm">
+                                    <li class="flex items-center justify-between bg-white p-2 rounded border">
+                                        <div><span class="coptic-text text-xl">ⲟⲩⲙⲁⲩ</span> <br><span class="text-xs text-gray-500">أم</span></div>
+                                        <span class="bg-gray-100 px-2 py-1 rounded font-bold">أو ماڤ</span>
+                                    </li>
+                                    <li class="flex items-center justify-between bg-white p-2 rounded border">
+                                        <div><span class="coptic-text text-xl">ⲟⲩⲕⲁϩⲓ</span> <br><span class="text-xs text-gray-500">أرض</span></div>
+                                        <span class="bg-gray-100 px-2 py-1 rounded font-bold">أو كاهي</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="p-4 bg-parchment rounded-lg border border-copticGold">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <span class="coptic-text text-3xl text-copticRed">ϩⲁⲛ</span> 
+                                    <span class="bg-yellow-100 px-2 py-1 rounded text-sm font-bold text-darkText">هان</span>
+                                </div>
+                                <p class="font-bold text-copticRed mb-2">للجمع (بنوعيه)</p>
+                                <ul class="space-y-2 text-sm">
+                                    <li class="flex items-center justify-between bg-white p-2 rounded border">
+                                        <div><span class="coptic-text text-xl">ϩⲁⲛⲙⲁⲩ</span> <br><span class="text-xs text-gray-500">أمهات</span></div>
+                                        <span class="bg-gray-100 px-2 py-1 rounded font-bold">هان ماڤ</span>
+                                    </li>
+                                    <li class="flex items-center justify-between bg-white p-2 rounded border">
+                                        <div><span class="coptic-text text-xl">ϩⲁⲛⲕⲁϩⲓ</span> <br><span class="text-xs text-gray-500">أراضي</span></div>
+                                        <span class="bg-gray-100 px-2 py-1 rounded font-bold">هان كاهي</span>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
 
                     <div class="bg-white rounded-xl shadow-md p-6 mb-6 border border-gray-100">
-                        <h2 class="text-2xl font-bold text-copticRed mb-4 border-b pb-2"><i class="fa-regular fa-star ml-2"></i>أدوات التنكير</h2>
-                        <div class="flex flex-col gap-4">
-                            <div class="p-4 bg-parchment rounded border border-copticGold">
-                                <span class="coptic-text text-2xl ml-2">ⲟⲩ</span> 
-                                <strong>للمفرد (مذكر ومؤنث):</strong> <br>
-                                مثال: <span class="coptic-text mx-1">ⲟⲩⲣⲱⲙⲓ</span> (رجل) / <span class="coptic-text mx-1">ⲟⲩⲥϩⲓⲙⲓ</span> (امرأة)
+                        <h2 class="text-2xl font-bold text-copticRed mb-4 border-b pb-2"><i class="fa-solid fa-star ml-2"></i>أدوات التعريف (Definite Articles)</h2>
+                        <p class="mb-4 text-gray-700">تُقسم إلى أدوات قوية (تحدد الشيء بعينه بدقة) وأدوات ضعيفة (تحدد الجنس أو النوع بشكل عام).</p>
+                        
+                        <div class="overflow-x-auto mb-6">
+                            <table class="w-full text-right border-collapse border border-gray-200">
+                                <thead>
+                                    <tr class="bg-copticRed text-white">
+                                        <th class="p-3 border">النوع</th>
+                                        <th class="p-3 border">أدوات قوية</th>
+                                        <th class="p-3 border">أدوات ضعيفة</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b bg-gray-50">
+                                        <td class="p-3 border font-bold text-copticRed">المفرد المذكر</td>
+                                        <td class="p-3 border">
+                                            <span class="coptic-text">ⲡⲓ</span> <span class="bg-yellow-100 px-2 py-0.5 rounded text-xs">بي</span>
+                                        </td>
+                                        <td class="p-3 border">
+                                            <span class="coptic-text">ⲡ</span> <span class="bg-yellow-100 px-2 py-0.5 rounded text-xs">إپ</span> / 
+                                            <span class="coptic-text">ⲫ</span> <span class="bg-yellow-100 px-2 py-0.5 rounded text-xs">إف</span>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b">
+                                        <td class="p-3 border font-bold text-copticRed">المفرد المؤنث</td>
+                                        <td class="p-3 border">
+                                            <span class="coptic-text">ϯ</span> <span class="bg-yellow-100 px-2 py-0.5 rounded text-xs">تي</span>
+                                        </td>
+                                        <td class="p-3 border">
+                                            <span class="coptic-text">ⲧ</span> <span class="bg-yellow-100 px-2 py-0.5 rounded text-xs">إت</span> / 
+                                            <span class="coptic-text">ⲑ</span> <span class="bg-yellow-100 px-2 py-0.5 rounded text-xs">إث</span>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b bg-gray-50">
+                                        <td class="p-3 border font-bold text-copticRed">الجمع بنوعيه</td>
+                                        <td class="p-3 border" colspan="2">
+                                            <span class="coptic-text">ⲛⲓ</span> <span class="bg-yellow-100 px-2 py-0.5 rounded text-xs">ني</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="bg-red-50 p-4 rounded-lg border-2 border-copticRed mb-6">
+                            <h3 class="font-bold text-xl text-copticRed mb-2"><i class="fa-solid fa-triangle-exclamation ml-2"></i>قاعدة الأدوات الضعيفة (VILMNOR)</h3>
+                            <p class="text-sm mb-3">متى نستخدم (ⲫ / ⲑ) ومتى نستخدم (ⲡ / ⲧ)؟</p>
+                            <p class="text-sm mb-3 leading-relaxed">
+                                إذا بدأت الكلمة بأحد الحروف السبعة (<strong>ⲃ, ⲓ, ⲗ, ⲙ, ⲛ, ⲟ, ⲣ</strong>) والمجمعة في كلمة <strong>ڤيل منور</strong>، 
+                                فإن الأداة <span class="coptic-text">ⲡ</span> تتحول إلى <span class="coptic-text">ⲫ</span>، 
+                                والأداة <span class="coptic-text">ⲧ</span> تتحول إلى <span class="coptic-text">ⲑ</span>.
+                            </p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm mb-4">
+                                <div class="bg-white p-2 rounded shadow-sm border border-gray-200">
+                                    <span class="coptic-text">ⲫⲣⲱⲙⲓ</span> <span class="bg-yellow-100 px-1 rounded font-bold">إف رومي</span> (الرجل) <br><span class="text-xs text-gray-500">تحولت لأنها بدأت بحرف ⲣ</span>
+                                </div>
+                                <div class="bg-white p-2 rounded shadow-sm border border-gray-200">
+                                    <span class="coptic-text">ⲑⲙⲁⲩ</span> <span class="bg-yellow-100 px-1 rounded font-bold">إث ماڤ</span> (الأم) <br><span class="text-xs text-gray-500">تحولت لأنها بدأت بحرف ⲙ</span>
+                                </div>
+                                <div class="bg-white p-2 rounded shadow-sm border border-gray-200">
+                                    <span class="coptic-text">ⲡⲕⲁϩⲓ</span> <span class="bg-yellow-100 px-1 rounded font-bold">إپ كاهي</span> (الأرض) <br><span class="text-xs text-gray-500">ظلت ⲡ لأن الـ ⲕ ليست من الحروف السبعة</span>
+                                </div>
+                                <div class="bg-white p-2 rounded shadow-sm border border-gray-200">
+                                    <span class="coptic-text">ⲧⲫⲉ</span> <span class="bg-yellow-100 px-1 rounded font-bold">إت في</span> (السماء) <br><span class="text-xs text-gray-500">ظلت ⲧ لأن الـ ⲫ ليست من الحروف السبعة</span>
+                                </div>
                             </div>
-                            <div class="p-4 bg-parchment rounded border border-copticGold">
-                                <span class="coptic-text text-2xl ml-2">ϩⲁⲛ</span> 
-                                <strong>للجمع (بنوعيه):</strong> <br>
-                                مثال: <span class="coptic-text mx-1">ϩⲁⲛⲣⲱⲙⲓ</span> (رجال)
+                            
+                            <div class="mt-4 p-3 bg-yellow-100 rounded border border-copticGold">
+                                <span class="font-bold text-copticRed">إستثناء هام جداً (Except):</span>
+                                <p class="text-sm mt-1 mb-2">إذا بدأت الكلمة بحرف (ⲓ) أو مقطع (ⲟⲩ) <strong>وجاء بعدهما حرف متحرك</strong>، لا نطبق القاعدة ونستخدم (ⲡ / ⲧ) العادية.</p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                    <div class="bg-white p-2 rounded text-sm border"><span class="coptic-text">ⲡⲓⲱⲧ</span> <span class="bg-gray-100 px-1 rounded font-bold">إپ يوت</span> (الأب)</div>
+                                    <div class="bg-white p-2 rounded text-sm border"><span class="coptic-text">ⲡⲟⲩⲣⲟ</span> <span class="bg-gray-100 px-1 rounded font-bold">إپ أورو</span> (الملك)</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p class="font-bold text-gray-800 mb-2">أمثلة لمقارنة الأدوات القوية بالضعيفة:</p>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-center text-sm">
+                            <div class="p-2 border rounded border-gray-200"><span class="coptic-text block text-xl">ⲡⲓⲣⲱⲙⲓ</span> <span class="bg-gray-100 px-2 rounded font-bold">بي رومي</span> <br>الرجل (أداة قوية)</div>
+                            <div class="p-2 border rounded bg-gray-50 border-gray-200"><span class="coptic-text block text-xl">ⲫⲣⲱⲙⲓ</span> <span class="bg-yellow-100 px-2 rounded font-bold">إف رومي</span> <br>الرجل (أداة ضعيفة)</div>
+                            <div class="p-2 border rounded border-gray-200"><span class="coptic-text block text-xl">ⲡⲓⲓⲁⲣⲟ</span> <span class="bg-gray-100 px-2 rounded font-bold">بي يارو</span> <br>النهر (أداة قوية)</div>
+                            <div class="p-2 border rounded bg-gray-50 border-gray-200"><span class="coptic-text block text-xl">ⲫⲓⲁⲣⲟ</span> <span class="bg-yellow-100 px-2 rounded font-bold">إف يارو</span> <br>النهر (أداة ضعيفة)</div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md p-6 mb-6 border border-gray-100">
+                        <h2 class="text-2xl font-bold text-copticRed mb-4 border-b pb-2"><i class="fa-solid fa-shapes ml-2"></i>كلمات يتغير شكلها في الجمع</h2>
+                        <p class="mb-4 text-gray-700">لاحظ أن هناك بعض الكلمات لا نكتفي بتغيير الأداة لجمعها، بل يتغير شكل الكلمة نفسها (المفرد غير الجمع):</p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                            <div class="p-4 bg-gray-50 rounded border border-gray-200">
+                                <p class="text-gray-500 text-sm mb-2 font-bold">ملك / ملوك</p>
+                                <div class="coptic-text text-xl sm:text-2xl mb-2 flex justify-center items-center gap-2">
+                                    <span>ⲟⲩⲣⲟ</span> <i class="fa-solid fa-arrow-left text-sm text-gray-400"></i> <span>ⲟⲩⲣⲱⲟⲩ</span>
+                                </div>
+                                <div class="text-xs font-bold flex justify-center items-center gap-2">
+                                    <span class="bg-gray-200 px-2 py-1 rounded">أورو</span> 
+                                    <i class="fa-solid fa-arrow-left text-gray-400"></i> 
+                                    <span class="bg-yellow-100 px-2 py-1 rounded text-darkText">أورو أوو</span>
+                                </div>
+                            </div>
+                            <div class="p-4 bg-gray-50 rounded border border-gray-200">
+                                <p class="text-gray-500 text-sm mb-2 font-bold">سماء / سموات</p>
+                                <div class="coptic-text text-xl sm:text-2xl mb-2 flex justify-center items-center gap-2">
+                                    <span>ⲫⲉ</span> <i class="fa-solid fa-arrow-left text-sm text-gray-400"></i> <span>ⲫⲏⲟⲩⲓ</span>
+                                </div>
+                                <div class="text-xs font-bold flex justify-center items-center gap-2">
+                                    <span class="bg-gray-200 px-2 py-1 rounded">في</span> 
+                                    <i class="fa-solid fa-arrow-left text-gray-400"></i> 
+                                    <span class="bg-yellow-100 px-2 py-1 rounded text-darkText">فيئوي</span>
+                                </div>
+                            </div>
+                            <div class="p-4 bg-gray-50 rounded border border-gray-200">
+                                <p class="text-gray-500 text-sm mb-2 font-bold">أخ / إخوة</p>
+                                <div class="coptic-text text-xl sm:text-2xl mb-2 flex justify-center items-center gap-2">
+                                    <span>ⲥⲟⲛ</span> <i class="fa-solid fa-arrow-left text-sm text-gray-400"></i> <span>ⲥⲛⲏⲟⲩ</span>
+                                </div>
+                                <div class="text-xs font-bold flex justify-center items-center gap-2">
+                                    <span class="bg-gray-200 px-2 py-1 rounded">صون</span> 
+                                    <i class="fa-solid fa-arrow-left text-gray-400"></i> 
+                                    <span class="bg-yellow-100 px-2 py-1 rounded text-darkText">إسنوي</span>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
-                        <h2 class="text-2xl font-bold text-copticRed mb-4 border-b pb-2"><i class="fa-solid fa-star ml-2"></i>أدوات التعريف</h2>
-                        <p class="mb-2 text-sm text-gray-600">تنقسم إلى عامة (عادية) وخاصة (مضافة للكلمات التي تبدأ بحروف <strong>VILMNOR ⲃ ⲓ ⲗ ⲙ ⲛ ⲟ ⲣ</strong>)</p>
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-right border-collapse mt-3">
-                                <thead>
-                                    <tr class="bg-copticRed text-white">
-                                        <th class="p-3">النوع</th>
-                                        <th class="p-3">عامة (عادية)</th>
-                                        <th class="p-3">خاصة</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="border-b bg-gray-50">
-                                        <td class="p-3 font-bold">مفرد مذكر</td>
-                                        <td class="p-3"><span class="coptic-text">ⲡⲓ</span> (مثال: ⲡⲓⲣⲱⲙⲓ)</td>
-                                        <td class="p-3"><span class="coptic-text">ⲡ</span> أو <span class="coptic-text">ⲫ</span> (مثال: ⲫⲛⲟⲩϯ)</td>
-                                    </tr>
-                                    <tr class="border-b">
-                                        <td class="p-3 font-bold">مفرد مؤنث</td>
-                                        <td class="p-3"><span class="coptic-text">ϯ</span> (مثال: ϯⲥⲱⲛⲓ)</td>
-                                        <td class="p-3"><span class="coptic-text">ⲧ</span> أو <span class="coptic-text">ⲑ</span> (مثال: ⲑⲙⲁⲩ)</td>
-                                    </tr>
-                                    <tr class="border-b bg-gray-50">
-                                        <td class="p-3 font-bold">الجمع</td>
-                                        <td class="p-3"><span class="coptic-text">ⲛⲓ</span> (مثال: ⲛⲓⲣⲱⲙⲓ)</td>
-                                        <td class="p-3"><span class="coptic-text">ⲛⲉⲛ</span> (للإضافة)</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <h2 class="text-2xl font-bold text-copticRed mb-4 border-b pb-2"><i class="fa-solid fa-compress ml-2"></i>الاختصارات المقدسة</h2>
+                        <p class="mb-4 text-gray-700">توضع علامة تشبه الشرطة فوق الكلمة المختصرة، وعادة تُستخدم للكلمات المقدسة:</p>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                            <div class="p-3 bg-gray-50 rounded border border-gray-200 hover:border-copticGold transition">
+                                <span class="coptic-text text-2xl block mb-2">ⲭ̅ⲥ̅</span>
+                                <span class="text-sm font-bold bg-yellow-100 px-2 rounded text-darkText">إخريستوس</span>
+                                <p class="text-xs text-gray-500 mt-1 font-bold">المسيح (ⲭⲣⲓⲥⲧⲟⲥ)</p>
+                            </div>
+                            <div class="p-3 bg-gray-50 rounded border border-gray-200 hover:border-copticGold transition">
+                                <span class="coptic-text text-2xl block mb-2">ⲓ̅ⲥ̅</span>
+                                <span class="text-sm font-bold bg-yellow-100 px-2 rounded text-darkText">إيسوس</span>
+                                <p class="text-xs text-gray-500 mt-1 font-bold">يسوع (ⲓⲏⲥⲟⲩⲥ)</p>
+                            </div>
+                            <div class="p-3 bg-gray-50 rounded border border-gray-200 hover:border-copticGold transition">
+                                <span class="coptic-text text-2xl block mb-2">ⲉⲑ̅ⲩ̅</span>
+                                <span class="text-sm font-bold bg-yellow-100 px-2 rounded text-darkText">إثؤواب</span>
+                                <p class="text-xs text-gray-500 mt-1 font-bold">مقدس/قديس (ⲉⲑⲟⲩⲁⲃ)</p>
+                            </div>
+                            <div class="p-3 bg-gray-50 rounded border border-gray-200 hover:border-copticGold transition">
+                                <span class="coptic-text text-2xl block mb-2">ⲫ̅ϯ</span>
+                                <span class="text-sm font-bold bg-yellow-100 px-2 rounded text-darkText">إفنوتي</span>
+                                <p class="text-xs text-gray-500 mt-1 font-bold">الله (ⲫⲛⲟⲩϯ)</p>
+                            </div>
                         </div>
                     </div>
                 `
